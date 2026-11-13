@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fernhill Plant Shop</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Hanken+Grotesk:wght@400;600&display=swap">
+<style>
+:root{--bg:#eaf1e4;--surface:#f7faf3;--ink:#14271c;--muted:#4d6455;--line:#c4d4bf;--accent:#d99a1e;--accent-ink:#2b1d00;--leaf:#2f7d4f;--ring:#9db89a;--deep:#1b3a2a;--deep-ink:#e9f3e4;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f211a;--surface:#183228;--ink:#e9f3e4;--muted:#a3bba9;--line:#2c4a3b;--accent:#f0b43a;--leaf:#5fc489;--ring:#3b5e4b;--deep:#0a1812;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f211a;--surface:#183228;--ink:#e9f3e4;--muted:#a3bba9;--line:#2c4a3b;--accent:#f0b43a;--leaf:#5fc489;--ring:#3b5e4b;--deep:#0a1812;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 "Hanken Grotesk",system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;margin:0;line-height:1.1}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(18px,4vw,48px)}
+nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:22px;padding-bottom:22px}
+.brand{font:700 26px Fraunces,Georgia,serif;text-decoration:none}
+.links{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.links a{text-decoration:none;font-weight:600}
+.links a:hover{color:var(--leaf)}
+.btn{display:inline-block;padding:13px 26px;border-radius:999px;background:var(--accent);color:var(--accent-ink)!important;font-weight:600;text-decoration:none;border:0}
+.btn.alt{background:none;color:var(--ink)!important;border:1.5px solid var(--ink)}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(20px,4vw,60px);align-items:center;padding-top:20px;padding-bottom:70px}
+.tag{display:inline-block;padding:9px 18px;border-radius:999px;background:var(--deep);color:var(--deep-ink);font-weight:600;font-size:15px;margin-bottom:22px}
+.hero h1{font-size:clamp(44px,7vw,84px);letter-spacing:-.02em;margin-bottom:20px}
+.hero p{color:var(--muted);max-width:30em;margin:0 0 28px;font-size:19px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.orbitbox{position:relative;width:100%;max-width:520px;aspect-ratio:1;margin:0 auto}
+.orbitbox::before{content:"";position:absolute;inset:11%;border:2px dashed var(--ring);border-radius:50%}
+.orbit{position:absolute;inset:0;animation:spin 90s linear infinite}
+.slot{position:absolute;width:21%;aspect-ratio:1;transform:translate(-50%,-50%)}
+.d{width:100%;height:100%;border-radius:50%;overflow:hidden;border:3px solid var(--surface);box-shadow:0 8px 22px rgba(0,0,0,.18);animation:spin 90s linear infinite reverse}
+.d svg{display:block;width:100%;height:100%}
+.core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:38%;text-align:center;font:700 clamp(18px,3vw,28px) Fraunces,Georgia,serif;line-height:1.15}
+@keyframes spin{to{transform:rotate(360deg)}}
+section{padding:70px 0}
+.band{background:var(--deep);color:var(--deep-ink)}
+.band .muted{color:#a3bba9}
+h2{font-size:clamp(30px,4.5vw,50px);margin-bottom:18px}
+.aim{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(24px,5vw,70px);align-items:start}
+.aim p{margin:0 0 16px}
+.muted{color:var(--muted)}
+.vals{display:grid;gap:18px}
+.val{padding:22px 24px;border-radius:20px;background:var(--surface);color:var(--ink);border:1.5px solid var(--line)}
+.val h3{font-size:22px;margin-bottom:6px}
+.val p{margin:0;color:var(--muted)}
+.types{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 28px}
+.types a{padding:10px 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);text-decoration:none;font-weight:600}
+.types a:hover{border-color:var(--accent)}
+.visit{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,56px);align-items:center}
+.card{padding:clamp(22px,3vw,34px);border-radius:22px;background:var(--surface);border:1.5px solid var(--line)}
+.card dl{display:grid;grid-template-columns:auto 1fr;gap:10px 22px;margin:18px 0 0}
+.card dt{font-weight:600}.card dd{margin:0;color:var(--muted)}
+.map{width:100%;border-radius:22px;border:1.5px solid var(--line);display:block;background:var(--surface)}
+footer{padding:34px 0 40px;text-align:center;color:var(--muted)}
+footer strong{font:700 20px Fraunces,Georgia,serif;color:var(--ink);display:block;margin-bottom:4px}
+@media (max-width:860px){.hero,.aim,.visit{grid-template-columns:1fr}section{padding:50px 0}}
+@media (prefers-reduced-motion:reduce){.orbit,.d{animation:none}html{scroll-behavior:auto}}
+.tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.search input{width:min(340px,80vw);padding:12px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:inherit}
+input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.basket{padding:11px 18px;border-radius:999px;border:0;background:var(--ink);color:var(--bg);font:600 15px inherit;cursor:pointer}
+#msg{padding:0 clamp(16px,4vw,48px);color:var(--muted);min-height:26px;margin:0}
+main{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(16px,3vw,48px);align-items:center;padding:8px clamp(16px,4vw,48px) 40px;max-width:1280px;margin:0 auto}
+#wheel{position:relative;width:100%;max-width:660px;aspect-ratio:1;margin:0 auto;perspective:900px}
+#ring{position:absolute;left:50%;top:50%;border:2px dashed var(--ring);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}
+#hub{position:absolute;left:50%;top:50%;width:50%;transform:translate(-50%,-50%);text-align:center;z-index:5}
+#hub h2{font:500 clamp(14px,2vw,17px) Fraunces,Georgia,serif;color:var(--muted);margin-bottom:8px}
+#tbtn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:12px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:700 clamp(15px,2.2vw,20px) Fraunces,Georgia,serif;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.12)}
+#tbtn svg{width:16px;height:16px;flex:none;transition:transform .25s}
+#tbtn[aria-expanded=true] svg{transform:rotate(180deg)}
+#tmenu{position:absolute;left:0;right:0;top:100%;margin-top:8px;max-height:210px;overflow:auto;background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:6px;box-shadow:0 14px 34px rgba(0,0,0,.25);text-align:left}
+#tmenu[hidden]{display:none}
+.cat{display:block;width:100%;padding:9px 12px;border:0;border-radius:12px;background:none;color:var(--ink);font:600 14px "Hanken Grotesk",sans-serif;cursor:pointer;text-align:left}
+.cat:hover{background:var(--bg)}
+.cat[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.item{position:absolute;width:var(--s);transform:translate(-50%,-50%);background:none;border:0;padding:0;cursor:pointer;color:var(--ink);font:inherit;text-align:center;transition:opacity .45s}
+.item.dim{opacity:.22}
+.item.enter{opacity:0}
+.pic{display:block;width:var(--s);height:var(--s);border-radius:50%;overflow:hidden;border:3px solid transparent;transition:transform .7s cubic-bezier(.3,.8,.3,1),border-color .3s,box-shadow .3s}
+.pic svg{display:block;width:100%;height:100%}
+.nm{display:block;font-size:clamp(10px,1.5vw,13px);font-weight:600;margin-top:4px;white-space:nowrap;position:relative;left:50%;transform:translateX(-50%);width:max-content}
+.item.front .pic{border-color:var(--accent);box-shadow:0 8px 26px rgba(0,0,0,.28)}
+.item.open .pic{transform:rotateY(-68deg) scale(1.3)}
+.item:hover:not(.open) .pic{transform:scale(1.07)}
+#panel{min-height:380px;background:var(--surface);border:1.5px solid var(--line);border-radius:22px;padding:clamp(20px,3vw,34px);position:relative}
+#hint{color:var(--muted);margin:0}
+#hint strong{font:700 24px Fraunces,Georgia,serif;display:block;color:var(--ink);margin-bottom:8px}
+#detail{display:none}
+#panel.on #detail{display:block;animation:in .5s cubic-bezier(.3,.8,.3,1)}
+#panel.on #hint{display:none}
+@keyframes in{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:none}}
+#detail h2{font-size:clamp(28px,4vw,40px)}
+.sci{color:var(--muted);font-style:italic;margin:2px 0 14px}
+.row{display:flex;align-items:baseline;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.price{font:700 30px Fraunces,Georgia,serif;color:var(--leaf)}
+.stock{font-size:14px;color:var(--muted)}
+.care{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:16px 0;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.care dt{font-weight:600}.care dd{margin:0;color:var(--muted)}
+.add{padding:12px 22px;border-radius:999px;border:0;background:var(--accent);color:var(--accent-ink);font:600 16px inherit;cursor:pointer}
+.x{position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:none;color:var(--ink);cursor:pointer}
+@media (max-width:860px){main{grid-template-columns:1fr}#panel{min-height:0}}
+@media (prefers-reduced-motion:reduce){.pic,.item{transition:none}#panel.on #detail{animation:none}}
+
+.shophead{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;margin-bottom:12px}
+#msg{padding:0}
+#shop main{padding:8px 0 0;max-width:none}
+#shop h2{margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="brand" href="#top" id="top">Fernhill Plant Shop</a>
+    <div class="links"><a href="#about">Our aim</a><a href="#shop">Shop</a><a href="#visit">Visit us</a><a class="btn" href="#shop">Shop plants</a></div>
+  </nav>
+  <div class="hero">
+    <div>
+      <span class="tag">Making the difference by providing greens</span>
+      <h1>Plants that make a home feel alive.</h1>
+      <p>A neighborhood plant shop with cacti, succulents, vines, ferns, flowering plants and herbs. Come in, pick a pot, and we will show you how to keep it thriving.</p>
+      <div class="cta"><a class="btn" href="#shop">Browse the shop</a><a class="btn alt" href="#visit">Find us</a></div>
+    </div>
+    <div class="orbitbox" aria-hidden="true"><div class="orbit" id="orbit"></div><div class="core">Green<br>things,<br>grown well</div></div>
+  </div>
+</div>
+
+<section class="band" id="about">
+  <div class="wrap aim">
+    <div>
+      <h2>Why we exist</h2>
+      <p class="muted">Fernhill started with one simple belief: a few green things can change how a room, a street and a day feel.</p>
+      <p class="muted">Our aim is to make healthy plants easy to find, easy to afford and easy to look after, so that anyone can bring a little green into their life, whether they have a sunny garden or a single windowsill.</p>
+    </div>
+    <div class="vals">
+      <div class="val"><h3>Healthy, well-grown plants</h3><p>Every plant is checked, watered and settled in before it reaches the shelf.</p></div>
+      <div class="val"><h3>Care advice with every plant</h3><p>Light, water and pet safety are listed for each plant, and we are happy to talk you through it in person.</p></div>
+      <div class="val"><h3>Greener neighborhoods</h3><p>We give back by supporting community planting days and school garden projects.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="shop"><div class="wrap"><h2>Shop our plants</h2><p class="muted" style="max-width:38em;margin:0 0 22px">Choose a type from the dropdown in the middle of the wheel, search for a plant, or click one to see its price and care.</p>
+<div class="shophead"><div class="search"><input id="q" type="search" placeholder="Search a plant in stock" aria-label="Search plants in stock" autocomplete="off"></div><button class="basket" id="basket">Basket (0)</button></div>
+<p id="msg" aria-live="polite"></p>
+<main>
+  <div id="wheel" aria-label="Plants in stock">
+    <div id="ring"></div>
+    <div id="hub"><h2>Shop by type</h2><button id="tbtn" aria-haspopup="listbox" aria-expanded="false"><span id="tname"></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6l5 5 5-5"/></svg></button><div id="tmenu" role="listbox" hidden></div></div>
+  </div>
+  <section id="panel" aria-live="polite">
+    <p id="hint"><strong>Pick a plant</strong>Choose a type in the middle of the wheel, then click a plant. You can also search by name and the wheel will find it.</p>
+    <div id="detail">
+      <button class="x" id="close" aria-label="Close details">✕</button>
+      <h2 id="dn"></h2><p class="sci" id="ds"></p>
+      <div class="row"><span class="price" id="dp"></span><span class="stock" id="dk"></span></div>
+      <p id="dd"></p>
+      <dl class="care" id="dc"></dl>
+      <button class="add" id="add">Add to basket</button>
+    </div>
+  </section>
+</main></div></section>
+
+<section id="visit" style="padding-top:20px">
+  <div class="wrap visit">
+    <div class="card">
+      <h2 style="font-size:clamp(28px,4vw,40px)">Visit the shop</h2>
+      <dl>
+        <dt>Address</dt><dd>14 Sampaguita Lane, Barangay Fernhill<br>beside the old town market</dd>
+        <dt>Hours</dt><dd>Mon to Sat, 8:00 AM to 6:00 PM<br>Sunday, 9:00 AM to 3:00 PM</dd>
+        <dt>Phone</dt><dd>0917 000 0000</dd>
+        <dt>Email</dt><dd>hello@fernhillplants.example</dd>
+      </dl>
+    </div>
+    <svg class="map" viewBox="0 0 400 300" role="img" aria-label="Simple map showing the shop on Sampaguita Lane">
+      <rect width="400" height="300" fill="#dfe9d6"/>
+      <path d="M0 210H400M120 0V300M290 0V300M0 90L400 130" stroke="#f4f7ef" stroke-width="16" fill="none"/>
+      <path d="M0 210H400M120 0V300M290 0V300M0 90L400 130" stroke="#c4d4bf" stroke-width="1.5" stroke-dasharray="6 6" fill="none"/>
+      <rect x="150" y="30" width="100" height="40" rx="6" fill="#bcd6b4"/><rect x="310" y="150" width="70" height="40" rx="6" fill="#bcd6b4"/><rect x="20" y="230" width="80" height="50" rx="6" fill="#bcd6b4"/>
+      <text x="200" y="231" fill="#4d6455" font-family="sans-serif" font-size="12" text-anchor="middle">Sampaguita Lane</text>
+      <path d="M200 150c-14-18-22-28-22-40a22 22 0 0144 0c0 12-8 22-22 40z" fill="#d99a1e"/><circle cx="200" cy="110" r="8" fill="#14271c"/>
+    </svg>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><strong>Fernhill Plant Shop</strong>Making the difference by providing greens</div>
+</footer>
+
+<script>(function(){
+const gs=[["#2f7d4f","#3f9a62"],["#4f9a3d","#9acb4a"],["#2a6a45","#3a8a58"],["#5aa64a","#8dc65a"],["#3f8a4f","#6fb06a"],["#27663f","#3a8a58"],["#79b34a","#c4e07a"],["#1f6b3e","#2f8a52"]],
+bgs=["#cfe6d0","#f0f0c4","#e4ecee","#eef2cf","#f3e6c4","#d7e8d4","#e3ecc7","#d4e9da"],pots=["#c46a3d","#6f7d8c","#d8c9a8","#e6b94a","#9a7bb0","#5aa6b8","#e07a4f","#2f3b44"];
+let h='';
+gs.forEach((g,i)=>{const a=i*45*Math.PI/180,x=50+39*Math.cos(a),y=50+39*Math.sin(a),l=5+i%4,w=7+(i%3)*4,len=26+(i%2)*8;let s='';
+for(let j=0;j<l;j++){const r=-60+j*120/(l-1);s+=`<g transform="rotate(${r} 50 66)"><ellipse cx="50" cy="${66-len/2-2}" rx="${w/2}" ry="${len/2}" fill="${g[j%2]}"/></g>`}
+h+=`<div class="slot" style="left:${x}%;top:${y}%"><div class="d"><svg viewBox="0 0 100 100"><rect width="100" height="100" fill="${bgs[i]}"/>${s}<path d="M36 68h28l-4 24H40z" fill="${pots[i]}"/><rect x="34" y="65" width="32" height="6" rx="2" fill="${pots[i]}"/></svg></div></div>`});
+document.getElementById('orbit').innerHTML=h;
+})();</script>
+<script>
+/* name, scientific, price, stock, description, light, water, pets(0 safe,1 toxic,2 mild), tip */
+const C=[
+{n:"Cactus",a:"cactus",bg:"#f3e6c4",p:[
+["Golden Barrel","Echinocactus grusonii",24,6,"A round, ribbed cactus topped with golden spines. Slow growing and sculptural.","Full sun","Every 3 to 4 weeks",0,"Water deeply, then let the soil dry out completely."],
+["Bunny Ears","Opuntia microdasys",14,12,"Flat pads dotted with soft-looking tufts. Fun shape, but the tufts still prick.","Full sun","Every 2 to 3 weeks",0,"Wear gloves when repotting; the tiny hairs irritate skin."],
+["Moon Cactus","Gymnocalycium mihanovichii",12,15,"A small grafted cactus with a bright red, pink or yellow top.","Bright, indirect light","Every 2 to 3 weeks",0,"Avoid harsh midday sun, which can scorch the colored top."],
+["Old Man Cactus","Cephalocereus senilis",26,5,"Covered in long white hair that gives it a bearded look.","Full sun","Every 3 weeks",0,"Keep the hair dry; wet fur can invite rot."],
+["Peruvian Apple","Cereus repandus",29,7,"A tall, branching columnar cactus that makes a bold floor plant.","Full sun","Every 2 to 3 weeks",0,"Rotate the pot so it grows straight."]]},
+{n:"Succulents",a:"rosette",bg:"#e8ecf3",p:[
+["Echeveria","Echeveria elegans",10,22,"A tidy rosette of powdery blue-green leaves.","Bright light","Every 10 to 14 days",0,"Water the soil, not the rosette, to avoid rot."],
+["Jade Plant","Crassula ovata",16,13,"Thick glossy leaves on a woody stem. Said to bring good luck.","Bright light","Every 2 weeks",1,"Wrinkled leaves mean it is thirsty."],
+["Haworthia","Haworthiopsis fasciata",11,18,"Small and striped with white bumps. Handles lower light.","Medium to bright light","Every 2 to 3 weeks",0,"Great for a desk or a bright bathroom."],
+["Burro's Tail","Sedum morganianum",15,9,"Long trailing stems covered in plump, bead-like leaves.","Bright light","Every 2 to 3 weeks",0,"Handle gently; the leaves fall off easily."],
+["Aloe Vera","Aloe barbadensis",14,16,"Spiky, juicy leaves. The gel soothes small burns.","Bright light","Every 2 to 3 weeks",1,"Use gritty cactus mix and a pot with drainage."]]},
+{n:"Vines",a:"vine",bg:"#f0f0c4",g:["#4f9a3d","#9acb4a"],p:[
+["Golden Pothos","Epipremnum aureum",12,20,"Trailing heart-shaped leaves in green and gold. Very forgiving.","Low to bright light","Every 1 to 2 weeks",1,"Trim long vines and root the cuttings in water."],
+["Heartleaf Philodendron","Philodendron hederaceum",14,17,"Soft, deep green heart-shaped leaves on long vines.","Low to bright light","Every 1 to 2 weeks",1,"Pinch the tips for a fuller plant."],
+["English Ivy","Hedera helix",13,14,"Classic lobed leaves that climb or trail beautifully.","Bright, indirect light","When top soil is dry",1,"Mist now and then to discourage spider mites."],
+["String of Pearls","Senecio rowleyanus",19,8,"Bead-like leaves on thin strands that cascade over pots.","Bright light","Every 2 weeks",1,"Plant in a shallow pot with sandy soil."],
+["Hoya","Hoya carnosa",22,10,"Waxy leaves and clusters of sweet-scented star flowers.","Bright, indirect light","Every 2 weeks",0,"Do not cut the old flower stalks; they bloom again."]]},
+{n:"Foliage",a:"fan",bg:"#cfe6d0",g:["#2f7d4f","#3f9a62"],f:[7,14,34,110],p:[
+["Monstera","Monstera deliciosa",28,9,"Big split leaves that grow glossier as it matures.","Bright, indirect light","When top 5 cm is dry",1,"Wipe the leaves monthly to keep them shiny."],
+["Snake Plant","Dracaena trifasciata",18,14,"Upright, striped leaves. Nearly impossible to kill.","Low to bright light","Every 2 to 3 weeks",1,"Never leave it standing in water."],
+["ZZ Plant","Zamioculcas zamiifolia",30,7,"Waxy leaves on arching stems. Tolerates dim rooms.","Low to bright light","Every 3 weeks",1,"When unsure, wait one more week."],
+["Rubber Plant","Ficus elastica",26,8,"Thick, deep green leaves on a sturdy stem.","Bright, indirect light","When top 4 cm is dry",1,"Rotate the pot monthly for even growth."],
+["Fiddle Leaf Fig","Ficus lyrata",45,5,"A tall tree with large violin-shaped leaves.","Bright, indirect light","When top 3 cm is dry",1,"Keep it in one spot; it dislikes moves and drafts."]]},
+{n:"Flowering",a:"flower",bg:"#e4ecee",g:["#2a6a45","#3a8a58"],p:[
+["Peace Lily","Spathiphyllum wallisii",22,11,"Glossy leaves and white blooms through the year.","Low to medium light","Keep lightly moist",1,"Drooping leaves mean thirst; it perks up fast."],
+["Orchid","Phalaenopsis",32,9,"Long-lasting arching sprays of elegant flowers.","Bright, indirect light","Weekly, let roots dry between",0,"Water roots, not the crown. Keep it in its slotted pot."],
+["African Violet","Streptocarpus ionanthus",12,16,"Compact, fuzzy leaves with ruffled purple blooms.","Bright, indirect light","Water from below",0,"Avoid wetting the leaves."],
+["Anthurium","Anthurium andraeanum",27,8,"Shiny red heart-shaped blooms that last for weeks.","Bright, indirect light","Every 1 to 2 weeks",1,"Likes humidity; set it on a pebble tray."],
+["Kalanchoe","Kalanchoe blossfeldiana",10,19,"A tough succulent with clusters of tiny bright flowers.","Bright light","Every 2 weeks",1,"Trim faded flowers to encourage more."]]},
+{n:"Ferns & Palms",a:"fan",bg:"#e3ecc7",g:["#4f9a3d","#79b34a"],f:[11,5,36,165],p:[
+["Boston Fern","Nephrolepis exaltata",16,12,"Lush, feathery fronds that arch over the pot.","Bright, indirect light","Keep evenly moist",0,"Mist often; dry air browns the tips."],
+["Areca Palm","Dypsis lutescens",34,6,"Feathery golden-green fronds for a tropical look.","Bright, indirect light","When top 3 cm is dry",0,"Use filtered water if the tips turn brown."],
+["Bird's Nest Fern","Asplenium nidus",18,10,"Wavy, bright green fronds that spiral from the center.","Low to medium light","Keep lightly moist",0,"Water at the soil edge, never into the center."],
+["Parlor Palm","Chamaedorea elegans",20,13,"A small, calm palm that handles low light well.","Low to medium light","When top 3 cm is dry",0,"A great first palm for apartments."],
+["Kentia Palm","Howea forsteriana",48,4,"An elegant, slow-growing palm that suits bright halls.","Medium to bright light","When top 5 cm is dry",0,"Repot rarely; it likes being snug."]]},
+{n:"Herbs",a:"fan",bg:"#eef2cf",g:["#5aa64a","#8dc65a"],f:[9,8,22,110],p:[
+["Basil","Ocimum basilicum",5,24,"Sweet, fragrant leaves for pasta, pizza and salads.","Sunny window","Keep soil moist",0,"Pinch the flowers off so leaves keep growing."],
+["Mint","Mentha spicata",6,20,"Fast-growing and fresh. Great for tea and drinks.","Bright light","Keep soil moist",0,"Keep it in its own pot; it spreads."],
+["Rosemary","Salvia rosmarinus",8,15,"Woody, aromatic needles for roasts and breads.","Full sun","When soil is dry",0,"Do not overwater; it hates wet roots."],
+["Thyme","Thymus vulgaris",6,17,"Tiny, savory leaves that suit soups and stews.","Full sun","When soil is dry",0,"Trim after flowering to keep it bushy."],
+["Lavender","Lavandula angustifolia",12,11,"Soothing purple spikes with a calming scent.","Full sun","When soil is dry",1,"Needs a gritty mix and plenty of airflow."]]}
+];
+const POT=["#c46a3d","#6f7d8c","#d8c9a8","#e6b94a","#9a7bb0","#5aa6b8"],PET=["Pet safe","Toxic to pets","Mildly toxic to pets"],LB=["Light","Water","Pets","Tip"];
+const $=id=>document.getElementById(id),wheel=$('wheel'),reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+let cur=0,list,items=[],step,size,R,rot=0,front=0,opened=-1,anim,basket=0;
+function fan(l,w,len,sp,g,y){let s='';for(let i=0;i<l;i++){const a=-sp/2+i*sp/(l-1);s+=`<g transform="rotate(${a} 50 ${y})"><path d="M50 ${y}V${y-len+4}" stroke="${g[0]}" stroke-width="1.4"/><ellipse cx="50" cy="${y-len/2-2}" rx="${w/2}" ry="${len/2}" fill="${g[i%2]}"/></g>`}return s}
+const potSvg=c=>`<path d="M36 68h28l-4 24H40z" fill="${c}"/><rect x="34" y="65" width="32" height="6" rx="2" fill="${c}"/>`;
+function art(ci,i){const k=C[ci],pc=POT[(i*2+ci)%6];let b='';
+if(k.a=='cactus'){const g="#3f8a4f",d="#2f6e3e",arm=(x,y,z)=>`<path d="M${x} ${y}H${z}V${y-14}" stroke="${g}" stroke-width="8" fill="none" stroke-linecap="round"/>`;
+b=[`<ellipse cx="50" cy="56" rx="17" ry="19" fill="${g}"/><path d="M50 38V74M42 40Q38 56 42 72M58 40Q62 56 58 72" stroke="${d}" fill="none"/><circle cx="50" cy="38" r="3" fill="#f0c43a"/>`,
+`<g fill="${g}"><ellipse cx="50" cy="54" rx="11" ry="15"/><ellipse cx="38" cy="38" rx="8" ry="11" transform="rotate(-25 38 38)"/><ellipse cx="62" cy="40" rx="8" ry="11" transform="rotate(25 62 40)"/></g><g fill="#f0c43a"><circle cx="50" cy="50" r="1.5"/><circle cx="38" cy="36" r="1.5"/><circle cx="62" cy="38" r="1.5"/></g>`,
+`<circle cx="50" cy="58" r="15" fill="${g}"/><path d="M50 43V73" stroke="${d}"/><circle cx="50" cy="42" r="8" fill="#e4473a"/>`,
+`<rect x="41" y="20" width="18" height="52" rx="9" fill="${g}"/><path d="M45 28V66M50 22V70M55 28V66" stroke="#f2f2ee" stroke-width="2.4" stroke-dasharray="2 3"/>`,
+`<rect x="43" y="22" width="14" height="50" rx="7" fill="${g}"/>${arm(43,52,33)}${arm(57,46,67)}`][i]}
+else if(k.a=='rosette'){const S=["#8fbf9f","#b8a6d9","#6fa88a","#7aa8a0","#8bc08a"],c=S[i];
+for(let j=0;j<10;j++)b+=`<g transform="rotate(${j*36} 50 56)"><ellipse cx="50" cy="42" rx="${5+i%3}" ry="12" fill="${c}"/></g>`;
+for(let j=0;j<10;j++)b+=`<g transform="rotate(${j*36+18} 50 56)"><ellipse cx="50" cy="47" rx="4" ry="8" fill="#d8ecd9" opacity=".75"/></g>`}
+else if(k.a=='vine'){let s='';for(let j=0;j<4;j++){const x=40+j*7,d=(j%2?1:-1)*(6+j*3),ex=x-d/2;s+=`<path d="M${x} 30Q${x+d} 55 ${ex} 90" stroke="${k.g[0]}" fill="none" stroke-width="1.5"/>`;for(const t of[.3,.55,.8]){const px=(1-t)*(1-t)*x+2*t*(1-t)*(x+d)+t*t*ex,py=(1-t)*(1-t)*30+2*t*(1-t)*55+t*t*90;s+=`<ellipse cx="${px}" cy="${py}" rx="4.5" ry="3.4" fill="${k.g[(j+Math.round(t*10))%2]}"/>`}}
+return`<svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="${k.bg}"/>${s}<path d="M37 12h26l-4 19H41z" fill="${pc}"/></svg>`}
+else{const f=k.f||[5,12,26,100];b=fan(f[0]+(i%2),f[1]+(i%3)*1.4,f[2]+(i%2)*3,f[3],k.g,66);
+if(k.a=='flower'){const fc=["#f4f4f0","#d96aa7","#9a6fd0","#e4473a","#f08ab0"][i];b+=[[38,32],[50,24],[62,34],[46,42]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="6.5" fill="${fc}"/><circle cx="${p[0]}" cy="${p[1]}" r="2.3" fill="#f5d24a"/>`).join('')}}
+return`<svg viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" fill="${k.bg}"/>${b}${potSvg(pc)}</svg>`}
+const fa=()=>innerWidth<=860?90:0;
+function place(){items.forEach((el,i)=>{const a=(i*step+rot)*Math.PI/180;el.style.left=size/2+R*Math.cos(a)+'px';el.style.top=size/2+R*Math.sin(a)+'px';el.classList.toggle('front',i===front)})}
+function layout(){size=wheel.clientWidth;const s=Math.max(58,size*.18);wheel.style.setProperty('--s',s+'px');R=size/2-s/2-18;$('ring').style.width=$('ring').style.height=2*R+'px';place()}
+function goTo(k,cb){front=k;const t=fa()-k*step,d=(((t-rot)%360)+540)%360-180,from=rot,to=rot+d,dur=reduce?0:Math.min(950,380+Math.abs(d)*3.2),t0=performance.now();cancelAnimationFrame(anim);
+(function f(now){const u=dur?Math.min(1,(now-t0)/dur):1,e=1-Math.pow(1-u,3);rot=from+(to-from)*e;place();if(u<1)anim=requestAnimationFrame(f);else if(cb)cb()})(t0)}
+function setCat(ci,k,cb){hide();cancelAnimationFrame(anim);wheel.querySelectorAll('.item').forEach(e=>e.remove());cur=ci;list=C[ci].p;step=360/list.length;front=k||0;
+items=list.map((p,i)=>{const b=document.createElement('button');b.className='item enter';b.setAttribute('aria-label',p[0]+', $'+p[2]);b.innerHTML='<span class="pic">'+art(ci,i)+'</span><span class="nm">'+p[0]+'</span>';b.onclick=()=>pick(i);wheel.appendChild(b);return b});
+document.querySelectorAll('.cat').forEach((b,i)=>b.setAttribute('aria-pressed',i===ci));$('tname').textContent=C[ci].n;
+rot=fa()-front*step-150;layout();
+requestAnimationFrame(()=>{items.forEach(e=>e.classList.remove('enter'));goTo(front,cb)});
+$('msg').textContent=C[ci].n+': '+list.length+' kinds in stock.';filter()}
+function show(k){const p=list[k];opened=k;items.forEach((el,i)=>el.classList.toggle('open',i===k));
+$('dn').textContent=p[0];$('ds').textContent=p[1];$('dp').textContent='$'+p[2];$('dk').textContent=p[3]+' in stock';$('dd').textContent=p[4];
+const v=[p[5],p[6],PET[p[7]],p[8]];$('dc').innerHTML=LB.map((l,i)=>'<dt>'+l+'</dt><dd>'+v[i]+'</dd>').join('');
+const pn=$('panel');pn.classList.remove('on');void pn.offsetWidth;pn.classList.add('on');
+if(innerWidth<=860)pn.scrollIntoView({behavior:reduce?'auto':'smooth',block:'nearest'})}
+function hide(){opened=-1;items.forEach(el=>el.classList.remove('open'));$('panel').classList.remove('on')}
+function pick(i){if(i===front){opened===i?hide():show(i);return}hide();goTo(i,()=>show(i))}
+function filter(){const q=$('q').value.trim().toLowerCase();items.forEach((el,i)=>el.classList.toggle('dim',!!q&&!(list[i][0]+' '+list[i][1]).toLowerCase().includes(q)))}
+$('close').onclick=hide;
+$('add').onclick=()=>{basket++;$('basket').textContent='Basket ('+basket+')'};
+$('q').addEventListener('input',e=>{const raw=e.target.value.trim(),q=raw.toLowerCase();hide();
+if(!q){filter();$('msg').textContent=C[cur].n+': '+list.length+' kinds in stock.';return}
+const all=[];C.forEach((c,ci)=>c.p.forEach((p,i)=>(p[0]+' '+p[1]).toLowerCase().includes(q)&&all.push([ci,i])));
+if(!all.length){filter();$('msg').textContent='No plant called “'+raw+'” is in stock right now.';return}
+const m=all.find(a=>a[0]===cur)||all[0],p=C[m[0]].p[m[1]];
+$('msg').textContent=(all.length>1?all.length+' matches. Showing ':'')+p[0]+' ('+C[m[0]].n+', '+p[3]+' in stock). Click it for details.';
+if(m[0]===cur){filter();goTo(m[1])}else{setCat(m[0],m[1]);}});
+const menu=$('tmenu'),tb=$('tbtn');
+function toggleMenu(on){menu.hidden=!on;tb.setAttribute('aria-expanded',on)}
+tb.onclick=()=>toggleMenu(menu.hidden);
+document.addEventListener('click',e=>{if(!$('hub').contains(e.target))toggleMenu(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){toggleMenu(false);tb.focus()}});
+C.forEach((c,i)=>{const b=document.createElement('button');b.className='cat';b.setAttribute('role','option');b.textContent=c.n;b.onclick=()=>{$('q').value='';toggleMenu(false);setCat(i,0)};menu.appendChild(b)});
+addEventListener('resize',()=>{cancelAnimationFrame(anim);rot=fa()-front*step;layout()});
+setCat(0,0);
+</script>
+</body>
+</html>

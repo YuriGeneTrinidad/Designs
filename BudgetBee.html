@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BudgetBee</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#262626;--line:#6b6b6b;--pill:#444;--pilltext:#fff;--text:#f4f4f4;--muted:#8a8a8a;--accent:#ffdd57;--accenttext:#262626;--nav:#fff;--navicon:#262626;--bad:#ff8a8a;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f6f4ee;--line:#a8a59b;--pill:#e4e1d6;--pilltext:#262626;--text:#262626;--muted:#6f6c62;--nav:#262626;--navicon:#fff;--bad:#b3261e;color-scheme:light}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--text);font-family:Figtree,system-ui,sans-serif;display:flex;justify-content:center}
+#app{width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;position:relative}
+main{flex:1;overflow-y:auto;padding:20px 22px 28px}
+.hello{display:flex;align-items:center;gap:14px;margin-bottom:22px;font-size:17px}
+.avatar{width:42px;height:42px;border-radius:50%;background:#fff;display:grid;place-items:center;overflow:hidden}
+.avatar svg{width:34px;height:34px;fill:#262626;margin-top:6px}
+.hero{border:1px solid var(--accent);border-radius:22px;padding:22px 24px;background:var(--bg);position:relative;z-index:2}
+.hero small{color:var(--muted);font-size:15px;display:flex;align-items:center;gap:12px}
+.eye{background:none;border:0;color:var(--muted);cursor:pointer;padding:0;display:flex}
+.big{font-size:44px;color:var(--accent);margin:12px 0 18px;letter-spacing:-.5px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{border:0;border-radius:999px;padding:8px 20px;font:inherit;font-size:15px;cursor:pointer;background:var(--pill);color:var(--pilltext)}
+.btn.y{background:var(--accent);color:var(--accenttext)}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tab{background:var(--accent);color:var(--accenttext);border:0;font:inherit;font-size:15px;padding:12px 0 14px;width:160px;border-radius:0 0 22px 22px;margin-top:-1px;cursor:pointer;position:relative;z-index:1}
+.panel{border:1px solid var(--line);border-radius:22px;padding:22px 22px 14px;margin-top:26px}
+.panel h2{font-size:15px;font-weight:400;margin:0 0 16px 4px}
+.item{display:grid;grid-template-columns:140px 1fr auto;align-items:center;gap:10px;margin-bottom:14px}
+.pill{background:var(--pill);color:var(--pilltext);border-radius:999px;padding:8px 14px;text-align:center;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kind{font-size:12px;color:var(--muted)}
+.kind.in,.kind.auto{color:var(--accent)}
+.amt{font-size:15px;white-space:nowrap}
+.del{background:none;border:0;color:var(--bad);font-size:20px;cursor:pointer;padding:0 0 0 6px}
+.empty{color:var(--muted);font-size:14px;padding:4px 4px 14px;line-height:1.5}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
+.stat{border-radius:22px;padding:22px 20px;min-height:170px;border:1px solid var(--line)}
+.stat.y{background:var(--accent);color:var(--accenttext);border:0}
+.stat b{display:block;font-weight:400;font-size:15px}
+.stat .n{font-size:24px;margin:14px 0 4px;color:var(--accent)}
+.stat.y .n,.stat.y i{color:var(--accenttext)}
+.stat i{font-size:12px;color:var(--muted)}
+.sheet{background:var(--accent);color:var(--accenttext);border-radius:0 22px 22px 22px;padding:22px;margin-top:-1px}
+.sheet h2{font-size:17px;font-weight:600;margin:0 0 6px}
+.sheet p{margin:0 0 14px;font-size:14px;line-height:1.45}
+.sheet .item{grid-template-columns:1fr auto auto;margin-bottom:10px}
+.sheet .pill{background:#444;color:#fff;text-align:left}
+.sheet .kind{color:#4a4310}
+.sheet .btn{background:#262626;color:#fff}
+.sheet hr{border:0;border-top:1px solid #262626;opacity:.25;margin:16px 0}
+h1{font-size:22px;font-weight:500;margin:4px 0 14px}
+label{display:block;font-size:14px;color:var(--muted);margin:14px 0 6px}
+input,textarea{width:100%;background:transparent;border:1px solid var(--line);border-radius:14px;padding:12px 16px;font:inherit;font-size:16px;color:var(--text)}
+textarea{min-height:110px;resize:vertical;font-size:14px}
+.seg{display:flex;gap:10px}.seg .btn{flex:1}
+.hint{font-size:13px;color:var(--muted);margin:10px 0 0;line-height:1.5}
+.sheet .hint{color:#4a4310}
+.note{border:1px dashed var(--line);border-radius:16px;padding:14px 16px;margin-top:6px;font-size:13px;color:var(--muted);line-height:1.5}
+.tag{display:inline-block;border-radius:999px;padding:3px 12px;font-size:13px;font-weight:600;background:#262626;color:var(--accent);margin-bottom:10px}
+nav{background:var(--nav);display:flex;justify-content:space-around;padding:16px 0 18px;flex-shrink:0}
+nav button{background:none;border:0;cursor:pointer;color:var(--navicon);padding:4px 10px;border-radius:12px;opacity:.45}
+nav button[aria-current="page"]{opacity:1}
+nav svg{width:30px;height:30px;display:block}
+.toast{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);background:var(--accent);color:var(--accenttext);padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90%;text-align:center}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+.auth{padding-top:7vh}.auth .logo{font-size:38px;color:var(--accent);font-weight:600;margin:0 0 6px;letter-spacing:-.5px}.auth .sub{color:var(--muted);font-size:15px;margin:0 0 22px;line-height:1.5}.link{background:none;border:0;color:var(--accent);font:inherit;font-size:14px;cursor:pointer;padding:6px 0;text-decoration:underline}.sec{border-top:1px solid var(--line);margin-top:26px;padding-top:6px}
+</style>
+</head>
+<body>
+<div id="app">
+  <main id="view"></main>
+  <div class="toast" id="toast" role="status"></div>
+  <nav aria-label="Main">
+    <button data-p="home" aria-label="Home"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5 2 11h3v10h5.5v-6h3v6H19V11h3z"/></svg></button>
+    <button data-p="plan" aria-label="Goal plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 7h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zM4 7l11-3v3"/><rect x="14" y="12" width="6" height="4" rx="1.5" fill="currentColor"/></svg></button>
+    <button data-p="input" aria-label="Import or add entries"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>
+    <button data-p="profile" aria-label="Profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3.2"/><path d="M5.5 19c1.5-3 4-4 6.5-4s5 1 6.5 4"/></svg></button>
+  </nav>
+</div>
+<script>
+const KEY='budgetit-v2';
+const peso=n=>'₱'+Math.round(n).toLocaleString('en-US');
+const uid=()=>Math.random().toString(36).slice(2,10);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const blank=()=>({name:'User',start:0,hide:false,salary:0,goal:0,size:1,tx:[]});
+/* ---------- accounts: data is encrypted on this device (PBKDF2 + AES-GCM) ---------- */
+const UKEY='budgetit-users',LKEY='budgetit-lock',te=new TextEncoder(),td=new TextDecoder();
+let S=blank(),U={},user=null,ckey=null,authMode='login',idleT=null;
+try{U=JSON.parse(localStorage.getItem(UKEY))||{}}catch(e){}
+if(!Object.keys(U).length)authMode='signup';
+const b64=u=>{let s='';for(const x of u)s+=String.fromCharCode(x);return btoa(s)};
+const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function derive(pw,salt){const km=await crypto.subtle.importKey('raw',te.encode(pw),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:250000,hash:'SHA-256'},km,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function unlock(name,pw){const r=U[name];if(!r)return null;try{const k=await derive(pw,unb64(r.salt));const p=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(r.iv)},k,unb64(r.ct));return{key:k,data:JSON.parse(td.decode(p))}}catch(e){return null}}
+async function persist(){if(!user)return;const iv=crypto.getRandomValues(new Uint8Array(12));const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},ckey,te.encode(JSON.stringify(S)));U[user]={salt:U[user].salt,iv:b64(iv),ct:b64(new Uint8Array(ct))};localStorage.setItem(UKEY,JSON.stringify(U))}
+let q=Promise.resolve();
+const save=()=>{q=q.then(persist).catch(()=>toast('Could not save on this device'))};
+let page='home',editing=false,kind='out';
+const bump=()=>{clearTimeout(idleT);if(user)idleT=setTimeout(()=>{logout();toast('Locked after 5 minutes of inactivity')},300000)};
+['click','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,bump,{passive:true}));
+function logout(){user=null;ckey=null;S=blank();page='home';editing=false;authMode=Object.keys(U).length?'login':'signup';clearTimeout(idleT);render()}
+const lockInfo=()=>{try{return JSON.parse(localStorage.getItem(LKEY))||{fails:0,until:0}}catch(e){return{fails:0,until:0}}};
+const bee=(s,id='b')=>`<svg width="${s}" height="${s*0.9}" viewBox="0 0 200 180" role="img" aria-label="BudgetBee logo"><defs><clipPath id="${id}"><ellipse cx="100" cy="110" rx="33" ry="47"/></clipPath></defs><g fill="none" stroke="var(--text)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M74 98C54 70 24 60 13 78C4 96 28 114 52 104C46 120 60 130 74 120"/><path d="M126 98C146 70 176 60 187 78C196 96 172 114 148 104C154 120 140 130 126 120"/><path stroke-width="5" d="M93 52C86 36 74 32 69 42M107 52C114 36 126 32 131 42"/></g><circle cx="100" cy="64" r="14" fill="var(--text)"/><ellipse cx="100" cy="110" rx="33" ry="47" fill="#f7a823"/><g clip-path="url(#${id})" fill="#262626"><rect x="60" y="84" width="80" height="11"/><rect x="60" y="108" width="80" height="11"/><rect x="60" y="132" width="80" height="11"/></g><ellipse cx="100" cy="110" rx="33" ry="47" fill="none" stroke="var(--text)" stroke-width="6"/><path d="M92 156L100 170L108 156Z" fill="var(--text)"/></svg>`;
+function authView(){const su=authMode==='signup';return`<div class="auth"><div style="display:flex;align-items:center;gap:14px;margin-bottom:10px">${bee(68)}<p class="logo" style="margin:0">BudgetBee</p></div><p class="sub">${su?'Create an account to protect your money data. Everything is encrypted with your password on this device.':'Log in to see your budget.'}</p>
+<label for="un">Username</label><input id="un" autocomplete="username" maxlength="24" autocapitalize="none">
+<label for="pw">Password${su?' (at least 8 characters)':''}</label><input id="pw" type="password" autocomplete="${su?'new-password':'current-password'}">
+${su?'<label for="pw2">Confirm password</label><input id="pw2" type="password" autocomplete="new-password"><p class="hint">There is no password reset. If you forget it, your data cannot be recovered.</p>':''}
+<div class="row" style="margin-top:20px"><button class="btn y" id="${su?'signup':'login'}" style="width:100%;padding:14px">${su?'Create account':'Log in'}</button></div>
+<div class="row" style="margin-top:8px"><button class="link" id="swmode">${su?'I already have an account':'Create a new account'}</button>${!su?'<button class="link" id="erase">Forgot password? Erase account</button>':''}</div></div>`}
+async function authClick(b){
+  const val=id=>(document.getElementById(id)||{}).value||'';
+  if(!(window.crypto&&crypto.subtle)){toast('This browser cannot do secure storage. Open the link over https.');return}
+  if(b.id==='swmode'){authMode=authMode==='login'?'signup':'login';return render()}
+  const name=val('un').trim().toLowerCase(),pw=val('pw');
+  if(b.id==='signup'){
+    if(name.length<3)return toast('Username needs at least 3 characters');
+    if(pw.length<8)return toast('Password needs at least 8 characters');
+    if(pw!==val('pw2'))return toast('Passwords do not match');
+    if(U[name])return toast('That username is taken on this device');
+    const salt=crypto.getRandomValues(new Uint8Array(16));ckey=await derive(pw,salt);
+    user=name;U[name]={salt:b64(salt),iv:'',ct:''};S=blank();S.name=val('un').trim();
+    try{const old=localStorage.getItem(KEY);if(old&&Object.keys(U).length===1){S=Object.assign(blank(),JSON.parse(old),{name:S.name});localStorage.removeItem(KEY)}}catch(e){}
+    await persist();page='home';bump();render();return toast('Account created');
+  }
+  if(b.id==='login'){
+    const L=lockInfo(),wait=Math.ceil((L.until-Date.now())/1000);
+    if(wait>0)return toast('Too many attempts. Try again in '+wait+' seconds.');
+    const r=await unlock(name,pw);
+    if(!r){L.fails++;if(L.fails>=3)L.until=Date.now()+Math.min(300,5*2**(L.fails-3))*1000;localStorage.setItem(LKEY,JSON.stringify(L));return toast('Wrong username or password')}
+    localStorage.removeItem(LKEY);user=name;ckey=r.key;S=Object.assign(blank(),r.data);page='home';bump();render();return;
+  }
+  if(b.id==='erase'){
+    if(!U[name])return toast('Type your username above first');
+    if(confirm('Erase the account "'+name+'" and all its data from this device? This cannot be undone.')){delete U[name];localStorage.setItem(UKEY,JSON.stringify(U));if(!Object.keys(U).length)authMode='signup';render();toast('Account erased')}
+  }
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!user&&e.target.tagName==='INPUT'){const b=document.getElementById(authMode==='signup'?'signup':'login');if(b)b.click()}});
+
+/* ---------- auto-detection ---------- */
+const RULES=[
+[/meralco|maynilad|manila water|pldt|converge|globe|smart|dito|sky ?cable|water bill|electric|internet|postpaid|prepaid load|load/i,'Bills'],
+[/netflix|spotify|youtube|disney|hbo|prime video|amazon prime|icloud|google one|chatgpt|openai|canva|apple\.com|viu|vivamax|adobe|microsoft 365/i,'Subscriptions'],
+[/\brent\b|condo|association dues|hoa/i,'Rent'],
+[/supermarket|puregold|landers|savemore|grocer|robinsons|s&r|wet market|palengke|shopwise/i,'Groceries'],
+[/jollibee|mcdo|mcdonald|starbucks|foodpanda|grab ?food|kfc|chowking|mang inasal|restaurant|cafe|coffee|bonchon/i,'Eating out'],
+[/grab|angkas|beep|petron|shell|caltex|toll|lrt|mrt|jeep|uber|gas station|fuel/i,'Transport'],
+[/shopee|lazada|zalora|uniqlo|mall|tiktok shop/i,'Shopping'],
+[/cinema|steam|playstation|xbox|concert|ticket|arcade/i,'Entertainment'],
+[/salary|payroll|sahod|deposit|credited|received|allowance|incoming/i,'Income']];
+const catOf=d=>{for(const[r,c]of RULES)if(r.test(d))return c;return 'Other'};
+const merchant=d=>d.toLowerCase().replace(/[^a-z ]/g,' ').split(/\s+/).filter(w=>w.length>2&&!/^(php|you|paid|the|for|payment|to|via|bill|online|transfer)$/.test(w)).slice(0,2).join(' ')||d.toLowerCase();
+const mk=t=>t.date.slice(0,7);
+const months=()=>[...new Set(S.tx.map(mk))].sort();
+const active=()=>{const m=months();return m.length?m[m.length-1]:new Date().toISOString().slice(0,7)};
+const monthName=k=>{const[y,m]=k.split('-');return new Date(y,m-1,1).toLocaleString('en-US',{month:'long'})+' '+y};
+function recurring(){
+  const g={};
+  S.tx.filter(t=>t.type==='out').forEach(t=>{const k=merchant(t.desc);(g[k]=g[k]||[]).push(t)});
+  const out=[];
+  for(const k in g){
+    const L=g[k].sort((a,b)=>a.date<b.date?-1:1),last=L[L.length-1],ms=new Set(L.map(mk)),known=['Bills','Subscriptions','Rent'].includes(last.cat);
+    const steady=ms.size>=2&&Math.max(...L.map(t=>t.amount))<=Math.min(...L.map(t=>t.amount))*1.3;
+    if(known||steady)out.push({name:last.desc.length>22?last.desc.slice(0,22):last.desc,cat:last.cat,amount:last.amount,months:ms.size});
+  }
+  return out.sort((a,b)=>b.amount-a.amount);
+}
+/* ---------- import ---------- */
+const numRx=/(?:php|₱|\bp)?\s*(-?\(?\d{1,3}(?:,\d{3})+(?:\.\d{1,2})?\)?|-?\d+(?:\.\d{1,2})?)/i;
+function toDate(s){
+  let m=s.match(/(\d{4})-(\d{2})-(\d{2})/);if(m)return m[0];
+  m=s.match(/(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);if(m){const y=m[3].length===2?'20'+m[3]:m[3];return `${y}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`}
+  m=s.match(/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})(?:,?\s*(\d{4}))?/i);
+  if(m){const mo=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'].indexOf(m[1].toLowerCase())+1;return `${m[3]||new Date().getFullYear()}-${String(mo).padStart(2,'0')}-${m[2].padStart(2,'0')}`}
+  return null;
+}
+function splitCSV(l){const o=[];let c='',q=false;for(const ch of l){if(ch==='"')q=!q;else if(ch===','&&!q){o.push(c);c=''}else c+=ch}o.push(c);return o}
+const toNum=s=>{s=String(s||'').trim();const neg=/^\(.*\)$/.test(s)||s.startsWith('-');const n=parseFloat(s.replace(/[^\d.]/g,''));return isNaN(n)?0:(neg?-n:n)};
+function parse(text){
+  const lines=text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean),res=[],today=new Date().toISOString().slice(0,10);
+  const head=lines[0]?splitCSV(lines[0]).map(h=>h.toLowerCase()):[];
+  const di=head.findIndex(h=>/date/.test(h)),ni=head.findIndex(h=>/desc|detail|particular|narrat|merchant|memo/.test(h));
+  const ai=head.findIndex(h=>/^amount|amt/.test(h)),dr=head.findIndex(h=>/debit|withdraw/.test(h)),cr=head.findIndex(h=>/credit|deposit/.test(h));
+  if(di>=0&&ni>=0&&(ai>=0||dr>=0||cr>=0)){
+    lines.slice(1).forEach(l=>{const c=splitCSV(l),date=toDate(c[di]||'')||today,desc=(c[ni]||'').trim();if(!desc)return;
+      let a=ai>=0?toNum(c[ai]):(cr>=0&&toNum(c[cr])?toNum(c[cr]):-Math.abs(toNum(c[dr])));if(!a)return;
+      res.push({date,desc,amount:Math.abs(a),type:a>0?'in':'out'})});
+    return res;
+  }
+  lines.forEach(l=>{
+    const date=toDate(l)||today;let rest=l.replace(/\d{4}-\d{2}-\d{2}/,'').replace(/\d{1,2}\/\d{1,2}\/\d{2,4}/,'').replace(/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d{1,2}(,?\s*\d{4})?/i,'');
+    const m=rest.match(numRx);if(!m)return;const a=toNum(m[1]);if(!a)return;
+    const desc=rest.replace(m[0],' ').replace(/\s+/g,' ').replace(/^[\s,:;-]+|[\s,:;-]+$/g,'')||'Entry';
+    const isIn=/salary|payroll|deposit|credited|received|incoming|sahod|cash ?in/i.test(l)||a>0&&/^\+/.test(m[0].trim());
+    res.push({date,desc,amount:Math.abs(a),type:isIn?'in':'out'});
+  });
+  return res;
+}
+function addTx(list){
+  const seen=new Set(S.tx.map(t=>t.date+t.desc+t.amount));let n=0;
+  list.forEach(r=>{const k=r.date+r.desc+r.amount;if(seen.has(k))return;seen.add(k);
+    S.tx.push({id:uid(),date:r.date,desc:r.desc,amount:r.amount,type:r.type,cat:r.type==='in'?'Income':catOf(r.desc)});n++});
+  if(S.tx.some(t=>t.type==='in')&&!S.salary){const inc=S.tx.filter(t=>t.type==='in'&&t.cat==='Income');if(inc.length)S.salary=Math.round(inc.reduce((a,t)=>a+t.amount,0)/new Set(inc.map(mk)).size)}
+  save();return n;
+}
+/* ---------- numbers ---------- */
+const balance=()=>S.start+S.tx.reduce((a,t)=>a+(t.type==='in'?t.amount:-t.amount),0);
+const inMonth=m=>S.tx.filter(t=>mk(t)===m);
+const spent=m=>inMonth(m).filter(t=>t.type==='out').reduce((a,t)=>a+t.amount,0);
+const net=m=>inMonth(m).reduce((a,t)=>a+(t.type==='in'?t.amount:-t.amount),0);
+const sumCat=(m,cs)=>inMonth(m).filter(t=>t.type==='out'&&cs.includes(t.cat)).reduce((a,t)=>a+t.amount,0);
+/* ---------- planner (PSA 2023 FIES-informed) ---------- */
+const FLOOR=2775; // PSA 2023 poverty threshold ~₱13,873/month for a family of 5 -> ~₱2,775 per person
+function plan(){
+  const sal=S.salary,goal=S.goal;if(!sal||!goal)return null;
+  const rec=recurring(),fixed=rec.reduce((a,r)=>a+r.amount,0),subs=rec.filter(r=>r.cat==='Subscriptions'),subTot=subs.reduce((a,r)=>a+r.amount,0);
+  const bare=FLOOR*S.size,comfy=Math.max(bare*2,sal*0.25),room=sal-goal-fixed;
+  const maxReal=Math.max(0,Math.floor((sal-fixed-comfy)/500)*500);
+  let v=room>=comfy?'ok':room>=bare?'tight':'no';
+  const freed=room+subTot>=comfy;
+  const D=Math.max(0,room),m=active();
+  const food=sumCat(m,['Groceries','Eating out']),tr=sumCat(m,['Transport']),wants=sumCat(m,['Shopping','Entertainment']);
+  const alloc=[['Food & groceries',.52,food],['Transport',.10,tr],['Health & other needs',.13,0],['Wants (shopping, fun)',.15,wants],['Buffer',.10,0]].map(([n,p,now])=>({n,amt:D*p,now}));
+  return{rate:goal/sal,fixed,subs,subTot,room,maxReal,v,freed,alloc,comfy,bare};
+}
+/* ---------- views ---------- */
+const greet=()=>{const h=new Date().getHours();return h<12?'Morning':h<18?'Afternoon':'Evening'};
+const eyeIcon=h=>`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3"/>${h?'<path d="M3 3l18 18"/>':''}</svg>`;
+const avatar='<div class="avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.5"/><path d="M3 24c0-6 4-9 9-9s9 3 9 9z"/></svg></div>';
+function hero(){return`<div class="hello">${avatar}<span>${greet()}, ${esc(S.name)}!</span><span style="margin-left:auto">${bee(40,'bh')}</span></div>
+<section class="hero"><small>Total Savings <button class="eye" id="eye" aria-label="${S.hide?'Show':'Hide'} balance" aria-pressed="${S.hide}">${eyeIcon(S.hide)}</button></small>
+<div class="big">${S.hide?'₱ ••••••':'₱ '+Math.round(balance()).toLocaleString('en-US')}</div>
+<div class="row"><button class="btn y" data-go="input">Input</button><button class="btn" id="edit">${editing?'Done':'Edit'}</button></div></section>`}
+function home(){
+  const m=active(),rec=recurring(),recKeys=new Set(rec.map(r=>merchant(r.name)));
+  const rows=inMonth(m).sort((a,b)=>(recKeys.has(merchant(b.desc))-recKeys.has(merchant(a.desc)))||b.amount-a.amount).map(t=>{
+    const auto=t.type==='out'&&recKeys.has(merchant(t.desc));
+    return`<div class="item"><span class="pill" title="${esc(t.desc)}">${esc(t.desc)}</span><span class="kind ${t.type==='in'?'in':auto?'auto':''}">${t.type==='in'?'Income':auto?'Auto-detected':t.cat}</span><span class="amt">${peso(t.amount)}${editing?`<button class="del" data-del="${t.id}" aria-label="Delete ${esc(t.desc)}">×</button>`:''}</span></div>`}).join('');
+  const yr=m.slice(0,4),saved=Math.max(0,months().filter(x=>x.startsWith(yr)).reduce((a,x)=>a+net(x),0));
+  return hero()+`<button class="tab" data-go="plan">View Info</button>
+<section class="panel"><h2>Expenses${S.tx.length?' · '+monthName(m):''}</h2>${rows||'<p class="empty">No transactions yet. Import your bank or e-wallet statement and BudgetBee will pick out Meralco, Maynilad, PLDT, Netflix and other recurring payments.</p><div class="row" style="margin-bottom:12px"><button class="btn y" data-go="input">Import statement</button></div>'}</section>
+<div class="stats"><div class="stat"><b>Spendings</b><div class="n">${peso(spent(m))}</div><i>Spent this month</i></div><div class="stat y"><b>Savings Total</b><div class="n">${peso(saved)}</div><i>This year</i></div></div>`;
+}
+function planView(){
+  const p=plan(),hist=months().reverse().map(k=>`<div class="item"><span class="pill">${monthName(k)}</span><span></span><span class="amt">${peso(net(k))}</span></div>`).join('');
+  let body=`<h2>Savings goal</h2><p>Enter your monthly salary and the amount you want to save. BudgetBee works out a route using your detected bills and typical Filipino spending patterns.</p>
+<label for="sal" style="color:#4a4310">Monthly salary (₱)</label><input id="sal" type="number" inputmode="decimal" value="${S.salary||''}" placeholder="e.g. 40000">
+<label for="goal" style="color:#4a4310">Monthly savings goal (₱)</label><input id="goal" type="number" inputmode="decimal" value="${S.goal||''}" placeholder="e.g. 25000">
+<label for="size" style="color:#4a4310">People you support (including you)</label><input id="size" type="number" min="1" value="${S.size}">
+<div class="row" style="margin-top:16px"><button class="btn" id="sg">Build my plan</button></div>`;
+  if(p){
+    const label={ok:'Realistic',tight:'Tight but possible',no:'Not realistic yet'}[p.v];
+    body+=`<hr><span class="tag">${label}</span><p>Saving ${peso(S.goal)} is ${(p.rate*100).toFixed(0)}% of your salary. Detected bills and subscriptions take ${peso(p.fixed)}${p.fixed?' ('+(p.fixed/S.salary*100).toFixed(0)+'%)':''}, leaving ${peso(Math.max(0,p.room))} to live on each month.</p>`;
+    if(p.v==='ok')body+=`<p>That covers a comfortable floor of about ${peso(p.comfy)} for essentials. Suggested monthly limits:</p>`+p.alloc.map(a=>`<div class="item"><span class="pill">${a.n}</span><span class="kind">${a.now?'now '+peso(a.now):''}</span><span class="amt">${peso(a.amt)}</span></div>`).join('');
+    if(p.v==='tight'){body+=`<p>Your leftover is under a comfortable level (${peso(p.comfy)}), so this works only if you hold spending to essentials.${p.subTot?` Pausing subscriptions would free ${peso(p.subTot)}${p.freed?', enough to make it realistic':''}:`:''}</p>`+p.subs.map(s=>`<div class="item"><span class="pill">${esc(s.name)}</span><span class="kind">pause</span><span class="amt">${peso(s.amount)}</span></div>`).join('')}
+    if(p.v==='no'){const step=p.maxReal>0?Math.max(500,Math.round((S.goal-p.maxReal)/3/500)*500):0;
+      body+=p.maxReal>0?`<p>A more realistic route: save ${peso(p.maxReal)} a month now, then raise it by about ${peso(step)} every month or two as you trim wants and subscriptions or earn more, until you reach ${peso(S.goal)}.</p>`:`<p>Fixed bills already use most of your salary, so ${peso(S.goal)} a month is out of reach for now. Start with whatever is left after bills and a ${peso(p.comfy)} living floor, and look for extra income to close the gap.</p>`}
+    body+=`<p class="hint">Targets are guidance from PSA 2023 survey averages (about 41% of family spending on food, about 21% on housing and utilities) and the PSA poverty line of about ${peso(FLOOR)} per person a month. Your own situation may differ.</p>`;
+  }
+  return hero()+`<div class="sheet">${body}</div>
+<section class="panel"><h2>Monthly net savings</h2>${hist||'<p class="empty">Your monthly totals appear here once you import transactions.</p>'}</section>`;
+}
+function inputView(){
+  return`<h1>Import &amp; add</h1>
+<div class="note"><b>Bank connection:</b> live syncing with your bank needs a licensed provider and a secure server, which this version doesn’t have. Instead, download your statement as CSV from your bank or e-wallet app, or paste your payment alerts, and BudgetBee will do the detecting.</div>
+<label for="f">Statement file (CSV or text)</label><input id="f" type="file" accept=".csv,.txt,text/csv,text/plain">
+<label for="t">Or paste transactions or alerts</label><textarea id="t" placeholder="2025-02-03 MERALCO 3,420.50&#10;2025-02-05 Netflix 549.00&#10;2025-02-15 Salary credited 40,000.00"></textarea>
+<div class="row" style="margin-top:14px"><button class="btn y" id="imp">Import and detect</button></div>
+<p class="hint">Everything is read on this device. Nothing is uploaded.</p>
+<h1 style="margin-top:30px">Add one entry</h1>
+<div class="seg" role="group" aria-label="Entry type"><button class="btn ${kind==='in'?'y':''}" data-kind="in">Income</button><button class="btn ${kind==='out'?'y':''}" data-kind="out">Outcome</button></div>
+<label for="n">Name</label><input id="n" placeholder="e.g. Meralco" maxlength="40" autocomplete="off">
+<label for="a">Amount (₱)</label><input id="a" type="number" inputmode="decimal" min="0" placeholder="0">
+<div class="row" style="margin-top:18px"><button class="btn y" id="add" style="width:100%;padding:14px">Add entry</button></div>`;
+}
+function profileView(){
+  return`<h1>Profile</h1><div class="hello">${avatar}<span>${esc(S.name)}</span></div>
+<label for="pn">Your name</label><input id="pn" value="${esc(S.name)}" maxlength="24">
+<label for="ob">Starting balance (₱)</label><input id="ob" type="number" inputmode="decimal" value="${S.start||''}" placeholder="0">
+<div class="row" style="margin-top:22px"><button class="btn y" id="sp">Save profile</button><button class="btn" id="rs">Clear all data</button></div>
+<div class="sec"><label for="p0">Change password · current</label><input id="p0" type="password" autocomplete="current-password"><label for="p1">New password (at least 8 characters)</label><input id="p1" type="password" autocomplete="new-password"><div class="row" style="margin-top:14px"><button class="btn" id="cpw">Update password</button></div></div>
+<div class="sec"><div class="row" style="margin-top:16px"><button class="btn y" id="logout">Log out</button></div><p class="hint">Changing your password, starting balance or clearing data asks for your password again. The app locks after 5 minutes of inactivity, or after a minute away from it.</p></div>`;
+}
+function render(){
+  const v=document.getElementById('view');
+  document.querySelector('nav').style.display=user?'flex':'none';
+  if(!user){v.innerHTML=authView();return}
+  v.innerHTML=page==='home'?home():page==='plan'?planView():page==='input'?inputView():profileView();
+  document.querySelectorAll('nav button').forEach(b=>b.dataset.p===page?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current'));
+}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.x);toast.x=setTimeout(()=>t.classList.remove('show'),2600)}
+const go=p=>{page=p;editing=false;render()};
+function askPw(msg){return new Promise(res=>{const d=document.createElement('div');d.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.6);display:grid;place-items:center;z-index:9;padding:24px';d.setAttribute('role','dialog');d.innerHTML='<div style="background:var(--bg);color:var(--text);border:1px solid var(--accent);border-radius:22px;padding:22px;max-width:360px;width:100%"><p style="margin:0 0 12px;line-height:1.5">'+msg+'</p><input type="password" id="sp0" autocomplete="current-password" aria-label="Password"><div class="row" style="margin-top:14px"><button class="btn y" id="spok">Confirm</button><button class="btn" id="spno">Cancel</button></div></div>';document.body.appendChild(d);const i=d.querySelector('#sp0');i.focus();const done=v=>{d.remove();res(v)};d.querySelector('#spok').onclick=()=>done(i.value);d.querySelector('#spno').onclick=()=>done(null);i.onkeydown=e=>{if(e.key==='Enter')done(i.value)}})}
+async function verify(pw){const L=lockInfo(),wait=Math.ceil((L.until-Date.now())/1000);if(wait>0){toast('Too many attempts. Try again in '+wait+' seconds.');return false}
+  const r=await unlock(user,pw);if(!r){L.fails++;if(L.fails>=3)L.until=Date.now()+Math.min(300,5*2**(L.fails-3))*1000;localStorage.setItem(LKEY,JSON.stringify(L));toast('Wrong password');return false}localStorage.removeItem(LKEY);return true}
+async function stepUp(msg){const pw=await askPw(msg);return pw==null?false:verify(pw)}
+async function clearData(){if(!confirm('Clear all transactions and goals in this account?'))return;if(!(await stepUp('Enter your password to clear this account’s data.')))return;S=Object.assign(blank(),{name:S.name});save();go('home')}
+async function saveProfile(){const nm=document.getElementById('pn').value.trim()||'User',st=parseFloat(document.getElementById('ob').value)||0;
+  if(st!==S.start&&!(await stepUp('Enter your password to change your starting balance.')))return;S.name=nm;S.start=st;save();toast('Profile saved');render()}
+let hiddenAt=0;document.addEventListener('visibilitychange',()=>{if(document.hidden)hiddenAt=Date.now();else if(user&&hiddenAt&&Date.now()-hiddenAt>60000){logout();toast('Locked while you were away')}});
+async function changePw(){
+  const p0=document.getElementById('p0').value,p1=document.getElementById('p1').value;
+  if(p1.length<8)return toast('New password needs at least 8 characters');
+  if(!(await verify(p0)))return;
+  const salt=crypto.getRandomValues(new Uint8Array(16));ckey=await derive(p1,salt);U[user].salt=b64(salt);
+  await persist();render();toast('Password updated');
+}
+function doImport(text){
+  const list=parse(text);if(!list.length){toast('No transactions found. Each line needs an amount.');return}
+  const n=addTx(list),r=recurring().length;go('home');toast(`Imported ${n} entries. ${r} recurring bills and subscriptions found.`);
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(!user)return authClick(b);
+  if(b.id==='logout')return logout();
+  if(b.id==='cpw')return changePw();
+  if(b.dataset.p||b.dataset.go)return go(b.dataset.p||b.dataset.go);
+  if(b.id==='eye'){S.hide=!S.hide;save();return render()}
+  if(b.id==='edit'){editing=!editing;return render()}
+  if(b.dataset.del){S.tx=S.tx.filter(t=>t.id!==b.dataset.del);save();return render()}
+  if(b.dataset.kind){const n=document.getElementById('n').value,a=document.getElementById('a').value,t=document.getElementById('t').value;kind=b.dataset.kind;render();document.getElementById('n').value=n;document.getElementById('a').value=a;document.getElementById('t').value=t;return}
+  if(b.id==='imp'){const t=document.getElementById('t').value.trim(),f=document.getElementById('f').files[0];
+    if(f){const r=new FileReader();r.onload=()=>doImport(r.result+'\n'+t);r.onerror=()=>toast('Could not read that file.');r.readAsText(f);return}
+    if(!t){toast('Choose a file or paste some transactions first.');return}return doImport(t)}
+  if(b.id==='add'){const name=document.getElementById('n').value.trim(),amt=parseFloat(document.getElementById('a').value);
+    if(!name||!(amt>0)){toast('Enter a name and an amount above 0');return}
+    addTx([{date:new Date().toISOString().slice(0,10),desc:name,amount:amt,type:kind}]);toast('Entry added');return go('home')}
+  if(b.id==='sg'){S.salary=parseFloat(document.getElementById('sal').value)||0;S.goal=parseFloat(document.getElementById('goal').value)||0;S.size=Math.max(1,parseInt(document.getElementById('size').value)||1);save();
+    if(!S.salary||!S.goal)toast('Enter both your salary and your goal');return render()}
+  if(b.id==='sp')return saveProfile();
+  if(b.id==='rs')return clearData();
+});
+render();
+</script>
+</body>
+</html>

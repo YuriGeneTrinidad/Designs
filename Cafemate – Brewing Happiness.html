@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cafemate – Brewing Happiness</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,800;1,9..144,500&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#f4e8d6;--surf:#fffaf1;--ink:#2a1810;--mut:#7a5a45;--acc:#a8641f;--acc2:#2a1810;--onacc:#fffaf1;--line:#dcc6a6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1c110b;--surf:#2a1b12;--ink:#f3e4cd;--mut:#c2a487;--acc:#d9964a;--acc2:#f3e4cd;--onacc:#1c110b;--line:#4a3425;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1c110b;--surf:#2a1b12;--ink:#f3e4cd;--mut:#c2a487;--acc:#d9964a;--acc2:#f3e4cd;--onacc:#1c110b;--line:#4a3425;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 'DM Sans',system-ui,sans-serif}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;margin:0;line-height:1.05}
+a{color:inherit}button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;gap:14px;padding:12px 5vw;background:var(--bg);border-bottom:1px solid var(--line)}
+.logo{font:800 1.4rem 'Fraunces',serif;text-decoration:none;margin-right:auto}
+.logo small{display:block;font:400 .65rem 'DM Sans';color:var(--mut);letter-spacing:.08em}
+nav a{text-decoration:none;margin:0 8px;color:var(--mut)}nav a:hover{color:var(--ink)}
+.btn{border:0;border-radius:999px;padding:10px 20px;background:var(--acc);color:var(--onacc);font-weight:700}
+.btn.ghost{background:none;border:1.5px solid var(--ink);color:var(--ink)}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:5vw;align-items:center;padding:7vw 5vw;min-height:80vh}
+.hero h1{font-size:clamp(2.8rem,8vw,6.4rem);font-weight:800;letter-spacing:-.03em}
+.hero h1 em{display:block;font-weight:500;color:var(--acc)}
+.hero p{max-width:46ch;color:var(--mut);font-size:1.1rem;margin:22px 0 28px}
+.cup{position:relative;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 50%,#3b2417 0 38%,#6f4a36 38% 40%,#e9d3b0 40% 62%,#c9a574 62% 64%,var(--surf) 64%);box-shadow:0 30px 60px #2a18102e;display:grid;place-items:center}
+.cup::after{content:"";width:34%;aspect-ratio:1;border-radius:50%;background:conic-gradient(from 20deg,#f1dfc0,#b98a55,#f1dfc0,#b98a55,#f1dfc0);filter:blur(1px);animation:s 14s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.cup::after{animation:none}}
+.sec{padding:70px 5vw}
+.sec>h2{font-size:clamp(2rem,5vw,3.4rem);margin-bottom:8px}
+.sub{color:var(--mut);margin:0 0 26px}
+.about{background:var(--acc2);color:var(--bg)}.about p{max-width:60ch;font-size:1.2rem}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.tab{border:1.5px solid var(--line);background:var(--surf);color:var(--ink);border-radius:999px;padding:8px 16px}
+.tab[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.item{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.item h3{font-size:1.15rem}.item p{margin:0;color:var(--mut);font-size:.88rem;flex:1}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.price{font:800 1.2rem 'Fraunces',serif}
+.add{width:38px;height:38px;border-radius:50%;border:0;background:var(--acc);color:var(--onacc);font-size:1.3rem}
+.note{margin-top:18px;font-size:.9rem;color:var(--mut);max-width:70ch}
+footer{padding:36px 5vw;color:var(--mut);border-top:1px solid var(--line)}
+dialog{border:1px solid var(--line);border-radius:18px;background:var(--surf);color:var(--ink);padding:26px;width:min(92vw,420px)}
+dialog::backdrop{background:#1c110bb0}
+dialog h2{font-size:1.8rem;margin-bottom:14px}
+.x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-size:1.4rem;line-height:1}
+.item select{margin-top:6px}
+label{display:block;font-size:.85rem;margin:10px 0 4px;color:var(--mut)}
+input,select{width:100%;padding:11px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+.pay{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:8px 0}
+.pay button{padding:10px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+.pay button[aria-pressed=true]{border-color:var(--acc);background:var(--acc);color:var(--onacc)}
+.err{color:#b3321f;font-size:.85rem;min-height:1.2em}
+#cart{position:fixed;right:0;top:0;bottom:0;width:min(94vw,380px);background:var(--surf);border-left:1px solid var(--line);padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(105%);transition:transform .25s;z-index:9;display:flex;flex-direction:column}
+#cart.open{transform:none}
+#lines{flex:1;overflow:auto}
+.ln{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+.qty button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.tot{display:flex;justify-content:space-between;font:800 1.3rem 'Fraunces',serif;margin:14px 0}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.cup{max-width:300px}nav{display:none}}
+</style></head><body>
+<header>
+<a class="logo" href="#top">Cafemate<small>Brewing Happiness</small></a>
+<nav><a href="#about">Our story</a><a href="#order">Order</a></nav>
+<button class="btn ghost" id="authBtn">Log in</button>
+<button class="btn" id="cartBtn">Cart (<span id="cnt">0</span>)</button>
+</header>
+<main id="top">
+<section class="hero">
+<div><h1>Coffee a day<em>makes me much okay.</em></h1>
+<p>Cafemate is a cozy corner for slow mornings and sweet afternoons: soft serve swirled high, hot plates from the kitchen, and a cup that gets your day started right.</p>
+<a class="btn" href="#order" style="text-decoration:none;display:inline-block">Start your order</a></div>
+<div class="cup" role="img" aria-label="Overhead view of a latte with swirled crema"></div>
+</section>
+<section class="sec about" id="about"><h2>Brewing happiness, one cup at a time.</h2>
+<p>From soft serve cones with free toppings to wings, pizza and pasta made to share, everything here is made for lingering. Pull up a chair, stay a while.</p></section>
+<section class="sec" id="order"><h2>Order</h2>
+<p class="sub">Pick your favorites, log in, and pay in a few taps.</p>
+<div class="tabs" id="tabs" role="group" aria-label="Menu categories"></div>
+<div class="grid" id="grid"></div>
+<p class="note" id="note"></p></section>
+</main>
+<footer>© Cafemate · Brewing Happiness. Design prototype: log in and payment are simulated.</footer>
+
+<aside id="cart" aria-label="Your cart"><h2 style="font-size:1.8rem;margin-bottom:10px">Your order</h2>
+<div id="lines"></div><div class="tot"><span>Total</span><span id="tot">₱0</span></div>
+<button class="btn" id="checkout">Checkout</button><button class="btn ghost" id="closeCart" style="margin-top:8px">Keep browsing</button></aside>
+
+<dialog id="authD"><button class="x" id="authX" aria-label="Close">×</button><h2 id="authT">Log in</h2>
+<label for="em">Email</label><input id="em" type="email" autocomplete="email">
+<label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
+<div id="nameW" hidden><label for="nm">Name</label><input id="nm" autocomplete="name"></div>
+<div class="err" id="authE"></div>
+<button class="btn" id="authGo" style="width:100%">Log in</button>
+<p style="text-align:center;font-size:.9rem"><a href="#" id="sw">New here? Create an account</a></p></dialog>
+
+<dialog id="payD"><h2>Payment</h2>
+<div class="tot"><span>Amount due</span><span id="payTot"></span></div>
+<label>Pay with</label><div class="pay" id="pay"></div>
+<div id="card"><label for="cn">Card number</label><input id="cn" inputmode="numeric" placeholder="0000 0000 0000 0000">
+<label for="cx">Expiry</label><input id="cx" placeholder="MM/YY"></div>
+<div id="wal" hidden><label for="ph">Mobile number</label><input id="ph" inputmode="tel" placeholder="09XX XXX XXXX"></div>
+<label for="ot">Order type</label><select id="ot"><option>Dine in</option><option>Take out</option></select>
+<div class="err" id="payE"></div>
+<button class="btn" id="payGo" style="width:100%">Pay now</button>
+<button class="btn ghost" id="payX" style="width:100%;margin-top:8px">Cancel</button></dialog>
+
+<dialog id="doneD"><h2>Order placed</h2><p id="doneT"></p><button class="btn" id="doneX">Back to menu</button></dialog>
+
+<script>
+const M={
+"Soft serve":[["Waffle cone",20,"1 free topping"],["Sugar cone",25,"1 free topping"],["Regular cup",45,"2 free toppings + syrup"],["Sundae cup",50,"2 free toppings + syrup"],["Soda float",20,"Add-on to any soda, 2 free toppings"],["Coffee float",20,"Add-on to any coffee, 2 free toppings"]],
+"Snacks":[["Jalapeño sticks",95,""],["Beef nachos",195,""],["Special beef nachos",210,""],["Mozza sticks",95,"Choose how many pieces",[["3 pcs",95],["6 pcs",175],["12 pcs",365]]]],
+"Wings":[["Chicken wings",195,"Pick a flavor and dips from the list below",[["3 pcs with rice",195],["6 pcs, 1 dip",330],["12 pcs, 2 dips",640],["24 pcs, 3 dips",1200]]]],
+"Sandwiches":[["Tuna sandwich",145,"Green leaf, creamy tuna, cheddar"],["Grilled cheese",160,"Mozzarella, cheddar, swiss"],["Pesto chicken",175,"Basil pesto, tomato, peppers, cheddar"],["Mediterranean",185,"Red onion, eggplant, zucchini, tomato, cheddar"],["Classic club",195,"Ham, bacon, tomato, lettuce"]],
+"Pizza":[["Hawaiian",245,"Tomato sauce, mozzarella, ham, pineapple"],["Mediterranean",265,"Mozzarella, eggplant, zucchini, tomato"],["Pepperoni",265,"Tomato sauce, mozzarella, pepperoni"],["Margherita",265,"Tomato sauce, mozzarella, fresh basil"],["Meat lover's",285,"Mozzarella, pepperoni, ham, bacon"]],
+"Pasta":[["Aglio olio",115,"Olive oil, garlic, chili flakes, parsley"],["Pesto pasta",115,"Basil, pine nuts, parmesan"],["Kung pao chicken",155,"Diced chicken, pine nuts"],["Carbonara",180,"Crispy bacon, eggs, parmesan"],["Chicken alfredo",195,"Creamy alfredo, garlic chicken"],["Truffle pasta",200,"Truffle oil, chicken, mushroom, thyme"]],
+"Soup & salad":[["Broccoli soup",95,"Thick, flavorful, creamy"],["Truffle soup",115,"Earthy, classic homemade"],["Caesar salad",180,"Romaine, parmesan, croutons"],["Greek salad",220,"Feta, olives, tomatoes, cucumbers"],["House salad",250,"Greens, ham, egg, tomatoes, cucumbers"],["Grilled chicken salad",220,"Greens, blue cheese, ranch, chicken"]]};
+const N={"Soft serve":"Flavors: Choco, Vanilla, Matcha, Strawberry. Toppings ₱10 each (biscof, oreo, graham, mini mallows, nips, sprinkles, almonds). Syrups ₱10.","Wings":"Flavors: salted egg, honey butter, honey sriracha, garlic parmesan, barbecue, gangjeong, buffalo. Dips ₱35 each.","Pasta":"Extras: salad dressing ₱25, garlic rice ₱35, plain rice ₱30, parmesan ₱20, egg ₱15."};
+const $=s=>document.querySelector(s);let cat="Soft serve",cart={},user=null,mode="in",pm="GCash";
+try{user=JSON.parse(localStorage.getItem("kc_session")||"null")}catch(e){}
+function tabs(){$("#tabs").innerHTML=Object.keys(M).map(c=>`<button class="tab" aria-pressed="${c==cat}" data-c="${c}">${c}</button>`).join("");
+$("#grid").innerHTML=M[cat].map((x,i)=>`<div class="item"><h3>${x[0]}</h3><p>${x[2]}</p>${x[3]?`<select id="o${i}" data-i="${i}" aria-label="Choose size">${x[3].map((o,j)=>`<option value="${j}">${o[0]} · ₱${o[1]}</option>`).join("")}</select>`:""}<div class="row"><span class="price" id="p${i}">₱${x[1]}</span><button class="add" data-i="${i}" aria-label="Add ${x[0]}">+</button></div></div>`).join("");
+$("#note").textContent=N[cat]||""}
+function total(){return Object.values(cart).reduce((a,l)=>a+l.p*l.q,0)}
+function draw(){const L=Object.entries(cart);$("#cnt").textContent=L.reduce((a,[,l])=>a+l.q,0);$("#tot").textContent="₱"+total();
+$("#lines").innerHTML=L.length?L.map(([k,l])=>`<div class="ln"><span>${l.n}</span><span class="qty"><button data-d="-1" data-k="${k}" aria-label="Less">−</button> ${l.q} <button data-d="1" data-k="${k}" aria-label="More">+</button></span><b>₱${l.p*l.q}</b></div>`).join(""):'<p class="sub">Your cart is empty. Add something from the menu.</p>'}
+function auth(){$("#authBtn").textContent=user?`Hi, ${user.name} · Log out`:"Log in"}
+$("#tabs").onclick=e=>{if(e.target.dataset.c){cat=e.target.dataset.c;tabs()}};
+$("#grid").onclick=e=>{const b=e.target.closest(".add");if(!b)return;const x=M[cat][b.dataset.i];let n=x[0],p=x[1];if(x[3]){const o=x[3][$("#o"+b.dataset.i).value];n+=" ("+o[0]+")";p=o[1]}const k=cat+n;cart[k]=cart[k]||{n,p,q:0};cart[k].q++;draw();$("#cart").classList.add("open")};
+$("#lines").onclick=e=>{const k=e.target.dataset.k;if(!k)return;cart[k].q+=+e.target.dataset.d;if(cart[k].q<1)delete cart[k];draw()};
+$("#cartBtn").onclick=()=>$("#cart").classList.add("open");$("#closeCart").onclick=()=>$("#cart").classList.remove("open");
+function users(){try{return JSON.parse(localStorage.getItem("kc_users")||"{}")}catch(e){return window._u=window._u||{}}}
+function save(u){try{localStorage.setItem("kc_users",JSON.stringify(u))}catch(e){window._u=u}}
+function setMode(m){mode=m;$("#authT").textContent=m=="in"?"Log in":"Create account";$("#authGo").textContent=m=="in"?"Log in":"Create account";$("#nameW").hidden=m=="in";$("#sw").textContent=m=="in"?"New here? Create an account":"Have an account? Log in";$("#authE").textContent=""}
+$("#sw").onclick=e=>{e.preventDefault();setMode(mode=="in"?"up":"in")};
+$("#authBtn").onclick=()=>{if(user){user=null;try{localStorage.removeItem("kc_session")}catch(e){}auth()}else{setMode("in");$("#authD").showModal()}};
+$("#authGo").onclick=()=>{const em=$("#em").value.trim().toLowerCase(),pw=$("#pw").value,U=users();
+if(!/^\S+@\S+\.\S+$/.test(em)||pw.length<6){$("#authE").textContent="Enter a valid email and a password of 6+ characters.";return}
+if(mode=="up"){if(U[em]){$("#authE").textContent="That email already has an account. Log in instead.";return}U[em]={pw,name:$("#nm").value.trim()||"friend"};save(U)}
+else if(!U[em]||U[em].pw!==pw){$("#authE").textContent="Email or password is incorrect.";return}
+user={email:em,name:U[em].name};try{localStorage.setItem("kc_session",JSON.stringify(user))}catch(e){}
+$("#authD").close();auth();if(Object.keys(cart).length&&window._co)openPay()};
+function openPay(){window._co=0;$("#payTot").textContent="₱"+total();$("#payE").textContent="";$("#payD").showModal()}
+$("#checkout").onclick=()=>{if(!total())return;$("#cart").classList.remove("open");if(!user){window._co=1;setMode("in");$("#authE").textContent="Log in to pay for your order.";$("#authD").showModal()}else openPay()};
+$("#pay").innerHTML=["GCash","Maya","Card","Cash at counter"].map(p=>`<button data-p="${p}" aria-pressed="${p==pm}">${p}</button>`).join("");
+function pmUI(){$("#card").hidden=pm!="Card";$("#wal").hidden=!(pm=="GCash"||pm=="Maya")}
+$("#pay").onclick=e=>{if(e.target.dataset.p){pm=e.target.dataset.p;[...$("#pay").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.p==pm));pmUI()}};
+$("#payX").onclick=()=>$("#payD").close();
+$("#payGo").onclick=()=>{if(pm=="Card"&&(($("#cn").value.replace(/\s/g,"").length<13)||!/^\d\d\/\d\d$/.test($("#cx").value))){$("#payE").textContent="Check your card number and expiry (MM/YY).";return}
+if((pm=="GCash"||pm=="Maya")&&$("#ph").value.replace(/\D/g,"").length<10){$("#payE").textContent="Enter your 11-digit mobile number.";return}
+const t=total(),n="CM-"+Math.floor(1000+Math.random()*9000);cart={};draw();$("#payD").close();
+$("#doneT").textContent=`Thank you, ${user.name}! Order ${n} (${$("#ot").value}) is paid via ${pm}: ₱${t}.`;$("#doneD").showModal()};
+$("#doneX").onclick=()=>$("#doneD").close();
+$("#authX").onclick=()=>{window._co=0;$("#authD").close()};
+$("#grid").onchange=e=>{const i=e.target.dataset.i;if(i!==undefined&&e.target.tagName=="SELECT")$("#p"+i).textContent="₱"+M[cat][i][3][e.target.value][1]};
+tabs();draw();auth();pmUI();
+</script></body></html>
