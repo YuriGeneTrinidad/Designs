@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>StudentLink · Campus Board</title>
+<style>
+:root{--bg:#f3f2ef;--card:#fff;--tx:#191919;--mu:#666;--ln:#e0dfdc;--br:#4059AD;--brl:#eaf0ff;--ok:#057642;box-sizing:border-box}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#1b1f23;--card:#262b30;--tx:#eee;--mu:#9aa3ab;--ln:#3a4047;--br:#8fa8f0;--brl:#2a3350;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#1b1f23;--card:#262b30;--tx:#eee;--mu:#9aa3ab;--ln:#3a4047;--br:#8fa8f0;--brl:#2a3350;color-scheme:dark}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+button{font:inherit;color:inherit;cursor:pointer}
+.app{max-width:430px;margin:0 auto;height:100%;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;position:relative}
+@media(min-width:500px){.app{height:min(740px,calc(100% - 32px));margin:16px auto;border-radius:20px;border:1px solid var(--ln);box-shadow:0 4px 16px rgba(0,0,0,.15)}}
+header{background:#4059AD;color:#fff;padding:calc(10px + env(safe-area-inset-top,0px)) 14px 10px;display:flex;align-items:center;gap:10px}
+header b{font-size:20px;flex:1}header .hb{background:none;border:0;color:#fff;font-size:18px;padding:0}
+main{flex:1;overflow-y:auto;padding:8px 0}
+nav{display:flex;background:var(--card);border-top:1px solid var(--ln);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;background:none;border:0;padding:8px 0;font-size:11px;color:var(--mu);position:relative}
+nav button i{display:block;font-style:normal;font-size:20px}nav .on{color:var(--br);font-weight:600}
+.bd{position:absolute;top:2px;left:55%;background:#e5484d;color:#fff;border-radius:9px;min-width:17px;font-size:11px;line-height:17px}
+.card{background:var(--card);border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);margin-bottom:8px;padding:12px 14px}
+.av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;flex:none}.av.co{border-radius:6px}
+.row{display:flex;gap:10px;align-items:center}.grow{flex:1;min-width:0}
+.mu{color:var(--mu);font-size:12px}.chips{display:flex;gap:6px;overflow-x:auto;padding:4px 14px 8px}
+.chip{white-space:nowrap;border:1px solid var(--ln);background:var(--card);border-radius:16px;padding:4px 12px;font-size:13px;color:var(--mu)}
+.chip.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.comp{flex:1;text-align:left;border:1px solid var(--ln);background:none;border-radius:22px;padding:11px 14px;color:var(--mu)}
+.post .pt{margin:10px 0}.tag{display:inline-block;font-size:11px;border-radius:4px;padding:1px 6px;background:var(--brl);color:var(--br);margin-left:4px}
+.emb{border:1px solid var(--ln);border-radius:8px;padding:10px 12px;margin-bottom:8px}.emb b{display:block;color:var(--br)}
+.pill{border:1px solid var(--br);color:var(--br);background:none;border-radius:16px;padding:5px 16px;font-weight:600;margin-top:8px}
+.pill.f{background:#4059AD;color:#fff;border-color:#4059AD}.pill.d{border-color:var(--mu);color:var(--mu);background:none}
+.st{font-size:12px;color:var(--mu);padding:6px 0;border-bottom:1px solid var(--ln)}
+.ac{display:flex;justify-content:space-between;padding-top:4px}.ac button{background:none;border:0;padding:8px 4px;color:var(--mu);font-weight:600;font-size:13px}.ac .on{color:var(--br)}
+.cm{margin-top:6px;font-size:13px}.cm p{background:var(--bg);border-radius:8px;padding:6px 10px;margin:4px 0}
+input,textarea,select{width:100%;padding:9px 12px;border:1px solid var(--ln);border-radius:8px;background:var(--card);color:var(--tx);font:inherit}
+.tabs{display:flex;background:var(--card);border-bottom:1px solid var(--ln);margin-top:-8px}
+.tabs button{flex:1;background:none;border:0;border-bottom:2px solid transparent;padding:11px 0;color:var(--mu)}.tabs .on{color:var(--br);border-color:var(--br);font-weight:600}
+.li{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--ln)}.li:last-child{border:0}
+h4{margin:0 0 6px;font-size:15px}.sk{display:flex;flex-wrap:wrap;gap:6px}.sk span{background:var(--brl);color:var(--br);border-radius:16px;padding:3px 11px;font-size:12px}
+.bub{max-width:75%;padding:8px 13px;border-radius:16px;margin:6px 14px;background:var(--card);border:1px solid var(--ln)}.bub.me{margin-left:auto;background:#4059AD;color:#fff;border:0}
+.send{display:flex;gap:8px;padding:8px 14px;background:var(--card);border-top:1px solid var(--ln)}
+.modal{position:absolute;inset:0;background:rgba(0,0,0,.5);display:grid;align-items:end;z-index:9}.modal>div{background:var(--card);padding:16px;border-radius:16px 16px 0 0}
+.toast{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.8);color:#fff;padding:8px 18px;border-radius:20px;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;z-index:20}.toast.show{opacity:1}
+.un b{font-weight:700}
+</style></head><body>
+<div class="app"><header><b>StudentLink</b><button class="hb" data-a="search">🔍</button><button class="hb" data-a="go" data-i="profile">👤</button></header>
+<main id="m"></main>
+<nav id="nav"></nav><div class="toast" id="t"></div></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const COL=['#4059AD','#0a7a8f','#8a4fbf','#c2571a','#2f7d4f','#b03a6b'];
+const av=(n,co)=>`<div class="av ${co?'co':''}" style="background:${COL[[...n].reduce((a,c)=>a+c.charCodeAt(0),0)%6]}">${n.replace(/Prof\. |Panpacific University /,'').split(' ').slice(0,2).map(w=>w[0]).join('')}</div>`;
+const G={algo:['Algorithm Mastery','BSIT 301: Algorithms and Data Structures','16 members','Tuesdays 6:00 PM'],db:['Database Design Team','BSIT 350: Database Systems','8 members','Thursdays 5:00 PM'],web:['Web Development Design Team','BSIT 240: Web Development','12 members','Mondays 4:00 PM']};
+const J={ls:['Software Engineering Intern','Online · Summer 2025'],tc:['Web Development Intern','Hybrid · Summer 2025 · Skills match: React, JavaScript'],ec:['Assistant Teacher','On-campus · Fall 2025'],aws:['Machine Learning Research Assistant','Online · 30 hrs/week'],ra:['Online Educational Learning Research Assistant','On-campus · 15 hrs/week'],reg:['Tech Support Assistant','On-campus · 12 hrs/week'],lib:['Library System Maintenance','On-campus · 15 hrs/week']};
+let P=[
+{id:1,k:'intern',a:'Lightweight Solutions',co:1,h:'Hiring · Online',t:'2h',x:'We’re opening Summer 2025 slots for student engineers. Build real features, ship real code, and get mentored by our team.',j:'ls',n:'Applied by 27 students from your school',l:41,c:6},
+{id:2,k:'ann',a:'Prof. Daniel Villano',h:'Big Data · ECOAST Department',t:'3h',x:'Reminder: the Big Data FCO is due tomorrow. Come see me during consultation hours if you want feedback on your idea before submitting.',l:58,c:9},
+{id:3,k:'intern',a:'Tayug City Hall',co:1,h:'Local government · Hybrid',t:'5h',x:'Looking for a web development intern to help modernize our public-facing pages. React and JavaScript experience preferred.',j:'tc',l:33,c:4},
+{id:4,k:'groups',a:'Chester Lopez',h:'BSIT · 6 mutual courses',t:'8h',x:'Looking for teammates for the Web Development project this term. We’ve got a designer; need one more person for backend. Join the study group below if you’re in! 👇',g:'web',l:19,c:7},
+{id:5,k:'intern',a:'Panpacific University ECOAST Department',co:1,h:'On-campus · Fall 2025',t:'1d',x:'Now hiring an Assistant Teacher for Fall 2025. Great for students who enjoy explaining concepts and supporting classmates. Supervised by Prof. Daniel Villano.',j:'ec',l:72,c:11},
+{id:6,k:'research',a:'Amazon Web Services',co:1,h:'Research · Remote',t:'1d',x:'We’re recruiting a Machine Learning Research Assistant. Hands-on work with real datasets, flexible hours.',j:'aws',l:96,c:14},
+{id:7,k:'groups',a:'Database Design Team',h:'Study group · BSIT 350',t:'1d',x:'📌 Meeting changed to 6pm tomorrow. Bring your ERD drafts!',g:'db',l:12,c:3},
+{id:8,k:'research',a:'Panpacific University Tayug Campus',co:1,h:'Research · On-campus',t:'2d',x:'Prof. Armie is looking for a research assistant for an online educational learning study.',j:'ra',l:27,c:2},
+{id:9,k:'campus',a:'Panpacific University Registrar',co:1,h:'Campus job · On-campus',t:'2d',x:'The Registrar’s office needs a Tech Support Assistant. Help staff and students with systems and records tools.',j:'reg',l:22,c:2},
+{id:10,k:'groups',a:'Algorithm Mastery',h:'Study group · BSIT 301',t:'3d',x:'Weekly problem-solving session: dynamic programming this Tuesday. All levels welcome, bring a laptop.',g:'algo',l:34,c:8},
+{id:11,k:'campus',a:'Panpacific University Tayug Campus',co:1,h:'Campus job · Library',t:'3d',x:'Ma’am Tes is looking for a student to help maintain the Library System. Flexible schedule around classes.',j:'lib',l:18,c:1}];
+const FL=[['all','All'],['intern','Internships'],['research','Research'],['campus','Campus Jobs'],['groups','Study Groups'],['ann','Announcements']];
+const PPL={'Chester Lopez':'BSIT · 6 mutual courses','Tom Dotimas':'BSIT · 6 mutual courses','Prof. Justine Pasamonte':'Integrated Programming','James Limos':'BSIT · 3 mutual courses','Nathan Fajardo':'BSIT · 5 mutual courses','Jeric Salvosa':'BSIT · Big Data'};
+const TH={'Prof. Daniel Villano':'Hi, I wanted to discuss your FCO idea...','Database Design Team':'Meeting changed to 6pm tomorrow...'};
+const S={sc:'home',f:'all',nt:'conn',like:{},app:{},sav:{},join:{},conn:{'Prof. Daniel Villano':'Big Data · Connected 2 weeks ago'},cm:{},open:{},un:2,nf:3,chat:null,msgs:{},
+N:[['👤','Prof. Daniel Villano endorsed you for Data Structures','2 hours ago'],['🏢','New teaching opportunity: Assistant Teacher','1 day ago'],['📚','Assignment due tomorrow: Big Data FCO','2 days ago']]};
+const toast=m=>{const t=$('#t');t.textContent=m;t.classList.add('show');clearTimeout(t._);t._=setTimeout(()=>t.classList.remove('show'),2500)};
+const notify=(i,x)=>{S.N.unshift([i,x,'Just now']);if(S.sc!=='alerts')S.nf++;nav()};
+const likes=p=>p.l+(S.like[p.id]?1:0);
+function post(p){const j=J[p.j],g=G[p.g],cm=S.cm[p.id]||[];
+return `<article class="card post"><div class="row">${av(p.a,p.co)}<div class="grow"><b>${esc(p.a)}</b><div class="mu">${p.h}</div><div class="mu">${p.t} · 🌐</div></div><button data-a="sav" data-i="${p.id}" style="background:none;border:0;font-size:18px">${S.sav[p.id]?'🔖':'☆'}</button></div>
+<p class="pt">${p.x}</p>
+${j?`<div class="emb"><b>${j[0]}</b><span class="mu">${p.a} · ${j[1]}</span>${p.n?`<div class="mu">👥 ${p.n}</div>`:''}<button class="pill ${S.app[p.j]?'d':'f'}" data-a="apply" data-i="${p.j}" data-p="${p.id}">${S.app[p.j]?'✓ Applied':'Apply now'}</button></div>`:''}
+${g?`<div class="emb"><b>${g[0]}</b><span class="mu">${g[1]}<br>${g[2]} · Meets ${g[3]}</span><br><button class="pill ${S.join[p.g]?'d':''}" data-a="join" data-i="${p.g}">${S.join[p.g]?'Leave group':'Join group'}</button></div>`:''}
+<div class="st">👍 ${likes(p)} · ${p.c+cm.length} comments</div>
+<div class="ac"><button class="${S.like[p.id]?'on':''}" data-a="like" data-i="${p.id}">👍 Like</button><button data-a="cmt" data-i="${p.id}">💬 Comment</button><button data-a="rep">🔁 Repost</button><button data-a="send">➤ Send</button></div>
+${S.open[p.id]?`<div class="cm">${cm.map(c=>`<p><b>You</b> ${esc(c)}</p>`).join('')}<input data-cin="${p.id}" placeholder="Add a comment…"></div>`:''}</article>`}
+const views={
+home:()=>`<div class="chips">${FL.map(f=>`<button class="chip ${S.f==f[0]?'on':''}" data-a="flt" data-i="${f[0]}">${f[1]}</button>`).join('')}</div>
+<div class="card row">${av('You')}<button class="comp" data-a="compose">Start a post for the campus board…</button></div>
+${P.filter(p=>S.f=='all'||p.k==S.f).map(post).join('')||'<p class="mu" style="text-align:center">Nothing here yet.</p>'}`,
+net:()=>{const tb=[['conn','Connections'],['cls','Classmates'],['grp','Study Groups']];
+const pr=(n,sub)=>`<div class="li">${av(n)}<div class="grow"><b>${n}</b><div class="mu">${sub}</div></div>${S.conn[n]?`<button class="pill d" data-a="chat" data-i="${n}">Message</button>`:`<button class="pill" data-a="connect" data-i="${n}">+ Connect</button>`}</div>`;
+return `<div class="tabs">${tb.map(t=>`<button class="${S.nt==t[0]?'on':''}" data-a="nt" data-i="${t[0]}">${t[1]}</button>`).join('')}</div><div style="height:8px"></div>`+
+(S.nt=='conn'?`<div class="card"><h4>Recommended connections</h4>${['Chester Lopez','Tom Dotimas','Prof. Justine Pasamonte'].map(n=>pr(n,PPL[n])).join('')}</div><div class="card"><h4>Your connections (${Object.keys(S.conn).length})</h4>${Object.keys(S.conn).map(n=>pr(n,S.conn[n])).join('')}</div>`:
+S.nt=='cls'?`<div class="card"><input placeholder="Search classmates…" style="margin-bottom:6px">${['James Limos','Nathan Fajardo','Jeric Salvosa'].map(n=>pr(n,PPL[n])).join('')}</div>`:
+Object.keys(G).map(k=>`<div class="card"><b>${G[k][0]}</b><div style="color:var(--br)">${G[k][1]}</div><div class="mu">${G[k][2]} · Meets ${G[k][3]}</div><button class="pill ${S.join[k]?'d':'f'}" data-a="join" data-i="${k}">${S.join[k]?'Leave group':'Join group'}</button></div>`).join(''))},
+msgs:()=>`<div class="card"><input placeholder="Search messages…"></div>`+Object.keys(TH).map(n=>`<div class="card row ${S.un&&!(S.msgs[n])?'un':''}" data-a="chat" data-i="${n}" style="cursor:pointer">${av(n)}<div class="grow"><b>${n}</b><div class="mu">${(S.msgs[n]||[]).slice(-1)[0]?.[1]||TH[n]}</div></div><span class="mu">${n[0]=='P'?'10:30 AM':'Yesterday'}</span></div>`).join(''),
+chat:()=>{const n=S.chat,m=S.msgs[n]||(S.msgs[n]=[[0,TH[n]?TH[n]:'Hi there! How can I help you with your courses?']]);
+return `<div style="display:flex;flex-direction:column;height:100%"><div class="row card" style="margin:0"><button data-a="go" data-i="msgs" style="background:none;border:0;font-size:20px">←</button><b>${n}</b></div><div id="cl" style="flex:1;overflow:auto;padding:8px 0">${m.map(x=>`<div class="bub ${x[0]?'me':''}">${esc(x[1])}</div>`).join('')}</div><div class="send"><input id="ci" placeholder="Type a message…"><button class="pill f" data-a="sendm" style="margin:0">➤</button></div></div>`},
+alerts:()=>S.N.map(n=>`<div class="card row"><div class="av" style="background:var(--brl)">${n[0]}</div><div class="grow">${n[1]}<div class="mu">${n[2]}</div></div></div>`).join(''),
+profile:()=>`<div class="card"><div class="row">${av('You')}<div><h4 style="margin:0">Your Name</h4><div class="mu">BSIT · Panpacific University Tayug Campus</div><div class="mu">${Object.keys(S.conn).length} connections · ${Object.keys(S.join).filter(k=>S.join[k]).length} study groups</div></div></div></div>
+<div class="card"><h4>About</h4><p style="margin:0">BSIT student interested in web development, data structures and big data. Open to internships and research opportunities.</p></div>
+<div class="card"><h4>Skills</h4><div class="sk"><span>React</span><span>JavaScript</span><span>Data Structures · endorsed by Prof. Villano</span></div></div>
+<div class="card"><h4>Courses</h4><div class="mu">Big Data · Integrated Programming · BSIT 301 Algorithms · BSIT 350 Databases · BSIT 240 Web Development</div></div>
+<div class="card"><h4>Applications</h4>${Object.keys(S.app).filter(k=>S.app[k]).map(k=>`<div>✓ ${J[k][0]}</div>`).join('')||'<span class="mu">No applications yet.</span>'}</div>`};
+function nav(){const it=[['home','🏠','Home'],['net','👥','Network'],['post','➕','Post'],['alerts','🔔','Alerts'],['msgs','💬','Messages']];
+$('#nav').innerHTML=it.map(i=>`<button class="${S.sc==i[0]||(i[0]=='msgs'&&S.sc=='chat')?'on':''}" data-a="${i[0]=='post'?'compose':'go'}" data-i="${i[0]}"><i>${i[1]}</i>${i[2]}${i[0]=='alerts'&&S.nf?`<span class="bd">${S.nf}</span>`:''}${i[0]=='msgs'&&S.un?`<span class="bd">${S.un}</span>`:''}</button>`).join('')}
+function render(){$('#m').innerHTML=views[S.sc]();nav();const c=$('#cl');if(c)c.scrollTop=c.scrollHeight}
+function go(s){S.sc=s;if(s=='alerts')S.nf=0;if(s=='msgs')S.un=0;render()}
+function compose(){const d=document.createElement('div');d.className='modal';d.innerHTML=`<div><h4>Create a post</h4><select id="pk" style="margin-bottom:8px"><option value="ann">Announcement</option><option value="groups">Looking for teammates / study group</option><option value="intern">Opportunity tip</option></select><textarea id="px" rows="4" placeholder="What do you want to share with the campus?"></textarea><div class="row" style="justify-content:flex-end;margin-top:8px"><button class="pill d" data-a="x">Cancel</button><button class="pill f" data-a="pub">Post</button></div></div>`;$('.app').appendChild(d)}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,i=b.dataset.i;
+if(a=='go')go(i);else if(a=='flt'){S.f=i;render()}else if(a=='nt'){S.nt=i;render()}
+else if(a=='like'){S.like[i]=!S.like[i];render()}else if(a=='sav'){S.sav[i]=!S.sav[i];toast(S.sav[i]?'Saved to your board':'Removed from saved');render()}
+else if(a=='cmt'){S.open[i]=!S.open[i];render();const x=document.querySelector(`[data-cin="${i}"]`);x&&x.focus()}
+else if(a=='rep')toast('Reposted to your connections');else if(a=='send')toast('Link copied to send');else if(a=='search')toast('Search coming soon!');
+else if(a=='apply'&&!S.app[i]){S.app[i]=1;const p=P.find(x=>x.id==b.dataset.p);toast(`Applied to ${J[i][0]}`);setTimeout(()=>notify('📩',`Application received for ${J[i][0]} at ${p.a}`),1800);render()}
+else if(a=='join'){const on=S.join[i]=!S.join[i];toast(on?`Joined ${G[i][0]}`:`Left ${G[i][0]}`);if(on)setTimeout(()=>notify('👥',`Welcome to ${G[i][0]}! Next meeting: ${G[i][3]}`),1000);render()}
+else if(a=='connect'&&!S.conn[i]){S.conn[i]='Connected just now';toast(`Connected with ${i}`);setTimeout(()=>notify('👤',`${i} accepted your connection request`),1500);render()}
+else if(a=='chat'){S.chat=i;S.sc='chat';S.msgs[i]=S.msgs[i]||null;render()}
+else if(a=='sendm')sendm();else if(a=='compose')compose();else if(a=='x')$('.modal').remove();
+else if(a=='pub'){const x=$('#px').value.trim();if(!x)return;P.unshift({id:Date.now(),k:$('#pk').value,a:'You',h:'BSIT · Panpacific University Tayug Campus',t:'now',x:esc(x),l:0,c:0});$('.modal').remove();S.sc='home';S.f='all';render();$('#m').scrollTop=0;toast('Posted to the campus board')}});
+document.addEventListener('keydown',e=>{if(e.key!='Enter')return;const t=e.target;if(t.id=='ci')sendm();else if(t.dataset.cin&&t.value.trim()){(S.cm[t.dataset.cin]=S.cm[t.dataset.cin]||[]).push(t.value.trim());render();document.querySelector(`[data-cin="${t.dataset.cin}"]`).focus()}});
+function sendm(){const i=$('#ci'),v=i.value.trim();if(!v)return;const n=S.chat,m=S.msgs[n];m.push([1,v]);render();const l=v.toLowerCase();
+setTimeout(()=>{m.push([0,/help|question/.test(l)?'I’d be happy to help! What specific question do you have about the course material?':/meet|study/.test(l)?'Great idea! How about meeting at the library tomorrow at 3pm?':/thank/.test(l)?'You’re welcome! Let me know if you need anything else.':'Thanks for your message! I’ll get back to you shortly.']);if(S.chat==n&&S.sc=='chat')render()},1000);$('#ci').focus()}
+render();
+</script></body></html>

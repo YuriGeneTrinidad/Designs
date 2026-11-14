@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Task Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6fc;--card:#fff;--ink:#14183a;--mut:#667;--line:#e6e9f6;--ind:#4338f5;--indsoft:#e6e4ff;--coral:#ff6b57;--sun:#ffc43d;--mint:#27c9a0;--side:#14183a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1024;--card:#1a1d3b;--ink:#eef0ff;--mut:#9aa0c8;--line:#2b2f57;--indsoft:#2a2873;--side:#0a0b1a}}
+:root[data-theme="dark"]{--bg:#0e1024;--card:#1a1d3b;--ink:#eef0ff;--mut:#9aa0c8;--line:#2b2f57;--indsoft:#2a2873;--side:#0a0b1a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0}
+body{font:15px/1.5 'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif;letter-spacing:-.01em}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.btn{background:var(--ind);color:#fff;border:0;border-radius:99px;padding:9px 18px;font-weight:700}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.red{background:var(--coral)}
+.btn:hover{filter:brightness(1.1)}
+input,select,textarea{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:9px 12px;width:100%}
+[hidden]{display:none!important}
+#login{transition:opacity .45s ease,transform .45s ease}
+#login.leave{opacity:0;transform:scale(.96)}
+#app.enter{animation:appin .55s ease both}
+@keyframes appin{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){#login,#app{transition:none!important;animation:none!important}}
+/* login */
+#login{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(135deg,#4338f5,#8a4dff 55%,#ff6b57)}
+.lbox{background:var(--card);border-radius:28px;padding:36px;width:min(460px,100%)}
+.lbox h1{font-size:34px;margin-bottom:6px}
+.lbox p{color:var(--mut);margin-bottom:20px}
+.users{display:grid;gap:10px}
+.users button{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:16px;border:1.5px solid var(--line);background:var(--card);text-align:left;font-weight:500}
+.users button:hover{border-color:var(--ind);background:var(--indsoft)}
+.av{width:34px;height:34px;border-radius:50%;display:inline-grid;place-items:center;color:#fff;font:700 13px 'Bricolage Grotesque';flex:none}
+.av.s{width:24px;height:24px;font-size:10px}
+/* layout */
+#app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+aside{background:var(--side);color:#fff;padding:22px 16px;display:flex;flex-direction:column;gap:18px;position:sticky;top:0;height:100vh;overflow:auto}
+.logo{font:800 21px 'Bricolage Grotesque';display:flex;gap:8px;align-items:center}
+.logo i{background:var(--ind);width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-style:normal;font-size:14px}
+.me{display:flex;gap:10px;align-items:center;background:rgba(255,255,255,.08);border-radius:16px;padding:10px}
+.me small{display:block;opacity:.7;font-size:12px}
+.me button{margin-left:auto;background:none;border:0;color:#fff;opacity:.7;font-size:12px;text-decoration:underline}
+.nav{display:grid;gap:4px}
+.nav h4{font-size:12px;opacity:.6;margin:6px 8px;font-weight:500}
+.nav button{background:none;border:0;color:#fff;text-align:left;padding:9px 12px;border-radius:12px;display:flex;gap:10px;align-items:center}
+.nav button:hover{background:rgba(255,255,255,.08)}
+.nav button.on{background:var(--ind)}
+.nav .c{margin-left:auto;font-size:12px;background:rgba(255,255,255,.15);border-radius:99px;padding:0 8px}
+.dot{width:10px;height:10px;border-radius:50%;flex:none}
+.addp{display:flex;gap:6px;margin:4px 6px}
+.addp input{background:rgba(255,255,255,.1);border-color:transparent;color:#fff;padding:7px 10px;border-radius:10px}
+.addp input::placeholder{color:#aab}
+.addp button{border:0;border-radius:10px;background:var(--sun);font-weight:800;width:34px;color:#14183a}
+main{padding:26px 30px 60px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.top h2{font-size:30px}
+.top .r{display:flex;gap:10px;align-items:center}
+.bell{position:relative}
+.bell b{position:absolute;top:-6px;right:-6px;background:var(--coral);color:#fff;border-radius:99px;font-size:11px;min-width:20px;height:20px;display:grid;place-items:center}
+.alerts{display:grid;gap:8px;margin-bottom:18px}
+.al{border-radius:14px;padding:10px 16px;display:flex;gap:10px;align-items:center;font-weight:500}
+.al.o{background:#ffe1dc;color:#9c2514}.al.d{background:#fff0c4;color:#765300}
+.tools{display:grid;grid-template-columns:1fr 150px 150px auto;gap:10px;margin-bottom:18px}
+.seg{display:flex;border:1.5px solid var(--line);border-radius:99px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:none;padding:8px 16px;font-weight:700}
+.seg .on{background:var(--ind);color:#fff}
+.stats{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.stat{background:var(--card);border-radius:16px;padding:12px 18px;min-width:120px}
+.stat b{font:800 24px 'Bricolage Grotesque';display:block}
+.stat span{color:var(--mut);font-size:13px}
+.task{background:var(--card);border-radius:18px;padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;margin-bottom:10px;border-left:6px solid var(--mint)}
+.task.hi{border-color:var(--coral)}.task.md{border-color:var(--sun)}
+.task.done .tt{text-decoration:line-through;color:var(--mut)}
+.task input[type=checkbox]{width:22px;height:22px;accent-color:var(--ind)}
+.tt{font-weight:700;cursor:pointer;background:none;border:0;text-align:left;padding:0;font-size:16px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:5px;font-size:13px;color:var(--mut);align-items:center}
+.pill{border-radius:99px;padding:1px 10px;font-weight:700;font-size:12px}
+.pill.p{background:var(--indsoft);color:var(--ind)}
+.pill.ov{background:#ffe1dc;color:#9c2514}.pill.du{background:#fff0c4;color:#765300}
+.who{display:flex}.who .av{margin-left:-6px;border:2px solid var(--card)}
+.empty{text-align:center;color:var(--mut);padding:50px 20px;background:var(--card);border-radius:20px}
+/* calendar */
+.cal{background:var(--card);border-radius:20px;padding:16px}
+.calh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.dn{text-align:center;color:var(--mut);font-size:12px;font-weight:700}
+.day{min-height:92px;border:1.5px solid var(--line);border-radius:12px;padding:5px;overflow:hidden}
+.day.t{border-color:var(--ind);background:var(--indsoft)}
+.day.x{opacity:.4}
+.day>span{font-size:12px;font-weight:700}
+.chip{display:block;width:100%;text-align:left;border:0;border-radius:6px;font-size:11px;padding:2px 6px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#d4f6ec;color:#085;font-weight:700}
+.chip.hi{background:#ffe1dc;color:#9c2514}.chip.md{background:#fff0c4;color:#765300}.chip.done{opacity:.5;text-decoration:line-through}
+/* dialog */
+dialog{border:0;border-radius:26px;padding:0;width:min(640px,94vw);max-height:92vh;background:var(--card);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.35)}
+dialog::backdrop{background:rgba(10,12,35,.55)}
+.dlg{padding:26px;display:grid;gap:14px}
+.dlg h3{font-size:24px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label.l{font-size:13px;font-weight:700;display:grid;gap:5px}
+.chk{display:flex;flex-wrap:wrap;gap:8px}
+.chk label{display:flex;gap:6px;align-items:center;border:1.5px solid var(--line);border-radius:99px;padding:4px 12px;font-size:13px}
+.chk input{width:auto}
+.cm{background:var(--bg);border-radius:12px;padding:8px 12px;font-size:14px}
+.cm small{color:var(--mut)}
+.acts{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.mail{border:1.5px dashed var(--line);border-radius:12px;padding:8px 12px;font-size:13px}
+@media(max-width:860px){
+ #app{grid-template-columns:1fr}
+ aside{position:static;height:auto;flex-direction:column}
+ .tools{grid-template-columns:1fr 1fr}.tools input{grid-column:1/-1}
+ main{padding:18px 14px 50px}.day{min-height:62px}.chip{font-size:0;height:8px;padding:0}.row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="login">
+ <div class="lbox">
+  <h1>Task Manager</h1>
+  <p>Sign in as a team member to open your tasks. Switch users any time to see how sharing works.</p>
+  <div class="users" id="users"></div>
+ </div>
+</div>
+
+<div id="app" hidden>
+ <aside>
+  <div class="logo"><i>✓</i>Task Manager</div>
+  <div class="me"><span class="av" id="meav"></span><div><b id="mename"></b><small>Signed in</small></div><button id="out">Sign out</button></div>
+  <div class="nav" id="projs"></div>
+  <div class="addp"><input id="np" placeholder="New project" aria-label="New project name"><button id="npb" aria-label="Add project">+</button></div>
+ </aside>
+ <main>
+  <div class="top">
+   <h2 id="ptitle"></h2>
+   <div class="r">
+    <button class="btn ghost" id="theme" aria-label="Toggle theme">◐</button>
+    <button class="btn ghost bell" id="bell">Reminders <b id="bn">0</b></button>
+    <button class="btn" id="new">+ New task</button>
+   </div>
+  </div>
+  <div class="alerts" id="alerts"></div>
+  <div class="stats" id="stats"></div>
+  <div class="tools">
+   <input id="q" type="search" placeholder="Search tasks" aria-label="Search tasks">
+   <select id="fs" aria-label="Status"><option value="all">All statuses</option><option value="open">Open</option><option value="done">Completed</option><option value="over">Overdue</option></select>
+   <select id="fp" aria-label="Priority"><option value="all">All priorities</option><option value="hi">High</option><option value="md">Medium</option><option value="lo">Low</option></select>
+   <div class="seg"><button id="vl" class="on">List</button><button id="vc">Calendar</button></div>
+  </div>
+  <div id="view"></div>
+ </main>
+</div>
+
+<dialog id="dlg"></dialog>
+<dialog id="rem"></dialog>
+
+<script>
+const USERS=["Yuri Gene Trinidad","Matthew Victorio","Kianne Jirly Lopez","Symon Cedrick Lacaden","Chester Janzen Lopez","Jesus Dotimas"];
+const COL=["#4338f5","#ff6b57","#d49a00","#17a98a","#8a4dff","#14183a"];
+const PCOL=["#4338f5","#ff6b57","#17a98a","#d49a00","#8a4dff","#e0559c"];
+const PL={hi:"High",md:"Medium",lo:"Low"};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ini=n=>n.split(" ").map(w=>w[0]).slice(0,2).join("");
+const av=(n,s)=>'<span class="av'+(s?" s":"")+'" title="'+esc(n)+'" style="background:'+COL[USERS.indexOf(n)%6]+'">'+ini(n)+'</span>';
+const ymd=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const off=n=>{const d=new Date();d.setDate(d.getDate()+n);return ymd(d)};
+const today=()=>ymd(new Date());
+const KEY="taskmanager-proto-v1";
+let S,proj="All",view="list",cal=new Date();cal.setDate(1);
+
+function seed(){
+ return{me:null,projects:["School","Work","Personal"],nid:7,email:true,outbox:[],tasks:[
+  {id:1,title:"Finish project report",desc:"Write the final section and proofread.",project:"School",priority:"hi",due:off(-1),done:false,owner:USERS[0],assignee:USERS[0],shared:[USERS[1],USERS[2]],comments:[{by:USERS[1],text:"I can review the SQL part.",at:"Today"}]},
+  {id:2,title:"Design database tables",desc:"Users, tasks, projects, comments.",project:"School",priority:"hi",due:off(0),done:false,owner:USERS[0],assignee:USERS[3],shared:[USERS[3],USERS[5]],comments:[]},
+  {id:3,title:"Build the Python API",desc:"Endpoints for tasks and auth.",project:"Work",priority:"md",due:off(2),done:false,owner:USERS[1],assignee:USERS[4],shared:[USERS[0],USERS[4]],comments:[]},
+  {id:4,title:"Test reminders",desc:"Check due date and overdue emails.",project:"Work",priority:"md",due:off(5),done:false,owner:USERS[2],assignee:USERS[2],shared:[USERS[0]],comments:[]},
+  {id:5,title:"Buy groceries",desc:"",project:"Personal",priority:"lo",due:off(1),done:false,owner:USERS[0],assignee:USERS[0],shared:[],comments:[]},
+  {id:6,title:"Present the prototype",desc:"Prepare a short demo.",project:"School",priority:"hi",due:off(7),done:true,owner:USERS[0],assignee:USERS[5],shared:[USERS[5]],comments:[]}]};
+}
+function load(){try{const v=localStorage.getItem(KEY);if(v)return JSON.parse(v)}catch(e){}return seed()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+S=load();
+
+const vis=t=>t.owner===S.me||t.assignee===S.me||t.shared.includes(S.me);
+const over=t=>!t.done&&t.due&&t.due<today();
+const dueSoon=t=>!t.done&&t.due&&t.due>=today()&&t.due<=off(1);
+const mine=()=>S.tasks.filter(vis);
+
+function init(){
+ $("users").innerHTML=USERS.map((u,i)=>'<button data-u="'+i+'">'+av(u)+u+'</button>').join("");
+ render();
+}
+function render(){
+ $("login").hidden=!!S.me;$("app").hidden=!S.me;
+ if(!S.me)return;
+ $("meav").outerHTML=av(S.me).replace("<span",'<span id="meav"');
+ $("mename").textContent=S.me.split(" ")[0];
+ const all=mine();
+ $("projs").innerHTML='<h4>Projects</h4><button data-p="All" class="'+(proj==="All"?"on":"")+'">All tasks<span class="c">'+all.length+'</span></button>'+
+  S.projects.map((p,i)=>'<button data-p="'+esc(p)+'" class="'+(proj===p?"on":"")+'"><span class="dot" style="background:'+PCOL[i%6]+'"></span>'+esc(p)+'<span class="c">'+all.filter(t=>t.project===p).length+'</span></button>').join("");
+ $("ptitle").textContent=proj==="All"?"All tasks":proj;
+ const sc=proj==="All"?all:all.filter(t=>t.project===proj);
+ $("stats").innerHTML=[["Total",sc.length],["Open",sc.filter(t=>!t.done).length],["Completed",sc.filter(t=>t.done).length],["Overdue",sc.filter(over).length]].map(a=>'<div class="stat"><b>'+a[1]+'</b><span>'+a[0]+'</span></div>').join("");
+ const ov=all.filter(over),du=all.filter(dueSoon);
+ $("alerts").innerHTML=(ov.length?'<div class="al o">⚠ '+ov.length+' overdue: '+ov.map(t=>esc(t.title)).join(", ")+'</div>':"")+(du.length?'<div class="al d">⏰ Due soon: '+du.map(t=>esc(t.title)).join(", ")+'</div>':"");
+ $("bn").textContent=ov.length+du.length;
+ $("vl").className=view==="list"?"on":"";$("vc").className=view==="cal"?"on":"";
+ view==="list"?list(sc):calendar(sc);
+ save();
+}
+function filt(sc){
+ const q=$("q").value.trim().toLowerCase(),s=$("fs").value,p=$("fp").value;
+ return sc.filter(t=>(!q||(t.title+" "+t.desc+" "+t.project).toLowerCase().includes(q))&&(p==="all"||t.priority===p)&&(s==="all"||(s==="open"&&!t.done)||(s==="done"&&t.done)||(s==="over"&&over(t))));
+}
+function list(sc){
+ const f=filt(sc).sort((a,b)=>a.done-b.done||(a.due||"9").localeCompare(b.due||"9"));
+ $("view").innerHTML=f.length?f.map(t=>{
+  const ppl=[t.assignee,...t.shared.filter(x=>x!==t.assignee)];
+  return '<div class="task '+t.priority+(t.done?" done":"")+'"><input type="checkbox" data-c="'+t.id+'" '+(t.done?"checked":"")+' aria-label="Mark complete">'+
+  '<div><button class="tt" data-e="'+t.id+'">'+esc(t.title)+'</button><div class="meta"><span class="pill p">'+esc(t.project)+'</span><span>'+PL[t.priority]+' priority</span>'+
+  (t.due?'<span>Due '+t.due+'</span>':"")+(over(t)?'<span class="pill ov">Overdue</span>':dueSoon(t)?'<span class="pill du">Due soon</span>':"")+
+  (t.comments.length?'<span>💬 '+t.comments.length+'</span>':"")+'</div></div>'+
+  '<div class="who" title="Assigned to '+esc(t.assignee)+'">'+ppl.map(n=>av(n,1)).join("")+'</div></div>'}).join(""):
+  '<div class="empty"><b>No tasks match.</b><br>Clear the filters or add a new task.</div>';
+}
+function calendar(sc){
+ const f=filt(sc),y=cal.getFullYear(),m=cal.getMonth(),first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate();
+ let h='<div class="cal"><div class="calh"><button class="btn ghost" data-m="-1">←</button><h3>'+cal.toLocaleString("en",{month:"long",year:"numeric"})+'</h3><button class="btn ghost" data-m="1">→</button></div><div class="grid">'+
+  ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=>'<div class="dn">'+d+'</div>').join("");
+ for(let i=0;i<first;i++)h+='<div class="day x"></div>';
+ for(let d=1;d<=n;d++){
+  const k=y+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0"),ts=f.filter(t=>t.due===k);
+  h+='<div class="day'+(k===today()?" t":"")+'"><span>'+d+'</span>'+ts.map(t=>'<button class="chip '+t.priority+(t.done?" done":"")+'" data-e="'+t.id+'">'+esc(t.title)+'</button>').join("")+'</div>';
+ }
+ $("view").innerHTML=h+'</div></div>';
+}
+function edit(id,preset){
+ const t=id?S.tasks.find(x=>x.id===id):{title:"",desc:"",project:proj==="All"?S.projects[0]:proj,priority:"md",due:off(3),assignee:S.me,shared:[],comments:[]};
+ const owner=!id||t.owner===S.me;
+ $("dlg").innerHTML='<div class="dlg"><h3>'+(id?"Edit task":"New task")+'</h3>'+
+ '<label class="l">Title<input id="f_t" value="'+esc(t.title)+'"></label>'+
+ '<label class="l">Description<textarea id="f_d" rows="2">'+esc(t.desc)+'</textarea></label>'+
+ '<div class="row"><label class="l">Project<select id="f_p">'+S.projects.map(p=>'<option'+(p===t.project?" selected":"")+'>'+esc(p)+'</option>').join("")+'</select></label>'+
+ '<label class="l">Priority<select id="f_r">'+Object.keys(PL).map(k=>'<option value="'+k+'"'+(k===t.priority?" selected":"")+'>'+PL[k]+'</option>').join("")+'</select></label></div>'+
+ '<div class="row"><label class="l">Deadline<input type="date" id="f_due" value="'+(t.due||"")+'"></label>'+
+ '<label class="l">Assign to<select id="f_a">'+USERS.map(u=>'<option'+(u===t.assignee?" selected":"")+'>'+u+'</option>').join("")+'</select></label></div>'+
+ '<div class="l">Share with<div class="chk">'+USERS.filter(u=>u!==S.me).map(u=>'<label><input type="checkbox" name="sh" value="'+u+'"'+(t.shared.includes(u)?" checked":"")+'>'+u.split(" ")[0]+'</label>').join("")+'</div></div>'+
+ (id?'<div class="l">Comments<div style="display:grid;gap:6px">'+(t.comments.map(c=>'<div class="cm"><small>'+esc(c.by)+' · '+esc(c.at)+'</small><br>'+esc(c.text)+'</div>').join("")||'<small>No comments yet.</small>')+'</div><div style="display:flex;gap:8px"><input id="f_c" placeholder="Write a comment"><button class="btn ghost" id="addc">Post</button></div></div>':"")+
+ '<div class="acts">'+(id&&owner?'<button class="btn red" id="del">Delete</button>':"")+'<button class="btn ghost" id="cx">Cancel</button><button class="btn" id="sv">Save task</button></div></div>';
+ $("dlg").showModal();
+ $("cx").onclick=()=>$("dlg").close();
+ if($("del"))$("del").onclick=()=>{if(confirm("Delete this task?")){S.tasks=S.tasks.filter(x=>x.id!==id);$("dlg").close();render()}};
+ if($("addc"))$("addc").onclick=()=>{const v=$("f_c").value.trim();if(!v)return;t.comments.push({by:S.me,text:v,at:new Date().toLocaleString("en",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"})});save();edit(id)};
+ $("sv").onclick=()=>{
+  const title=$("f_t").value.trim();if(!title){$("f_t").focus();return}
+  const sh=[...document.querySelectorAll("[name=sh]:checked")].map(x=>x.value);
+  const o={title,desc:$("f_d").value.trim(),project:$("f_p").value,priority:$("f_r").value,due:$("f_due").value,assignee:$("f_a").value,shared:sh};
+  if(id)Object.assign(t,o);else S.tasks.push({...t,...o,id:S.nid++,done:false,owner:S.me});
+  $("dlg").close();render();
+ };
+}
+function reminders(){
+ const all=mine(),ov=all.filter(over),du=all.filter(dueSoon);
+ if(S.email){[...ov.map(t=>[t,"Overdue"]),...du.map(t=>[t,"Due soon"])].forEach(([t,k])=>{
+  if(!S.outbox.some(m=>m.id===t.id&&m.k===k&&m.to===S.me))S.outbox.unshift({id:t.id,k,to:S.me,s:k+": "+t.title,at:new Date().toLocaleTimeString("en",{hour:"numeric",minute:"2-digit"})})})}
+ save();
+ $("rem").innerHTML='<div class="dlg"><h3>Reminders</h3>'+
+ '<label class="chk"><label><input type="checkbox" id="em" '+(S.email?"checked":"")+'>Send email notifications</label></label>'+
+ (ov.length?'<div class="al o">'+ov.length+' overdue</div>'+ov.map(t=>'<div class="cm">'+esc(t.title)+' · was due '+t.due+'</div>').join(""):"")+
+ (du.length?'<div class="al d">'+du.length+' due today or tomorrow</div>'+du.map(t=>'<div class="cm">'+esc(t.title)+' · due '+t.due+'</div>').join(""):"")+
+ (!ov.length&&!du.length?'<div class="empty">Nothing urgent. You are all caught up.</div>':"")+
+ '<h3 style="font-size:18px">Email log (simulated)</h3>'+
+ (S.outbox.filter(m=>m.to===S.me).slice(0,6).map(m=>'<div class="mail">✉ To '+esc(m.to)+' · '+esc(m.s)+' <small>('+m.at+')</small></div>').join("")||'<small>No emails sent yet.</small>')+
+ '<div class="acts"><button class="btn" id="rx">Close</button></div></div>';
+ $("rem").showModal();$("rx").onclick=()=>$("rem").close();
+ $("em").onchange=e=>{S.email=e.target.checked;save()};
+}
+document.addEventListener("click",e=>{
+ const g=a=>e.target.closest("["+a+"]");
+ let x;
+ if(x=g("data-u")){const u=USERS[+x.dataset.u],l=$("login");l.classList.add("leave");setTimeout(()=>{S.me=u;l.classList.remove("leave");$("app").classList.add("enter");render()},450)}
+ else if(x=g("data-p")){proj=x.dataset.p;render()}
+ else if(x=g("data-e"))edit(+x.dataset.e);
+ else if(x=g("data-m")){cal.setMonth(cal.getMonth()+ +x.dataset.m);render()}
+});
+document.addEventListener("change",e=>{
+ const c=e.target.dataset&&e.target.dataset.c;
+ if(c){const t=S.tasks.find(t=>t.id==c);t.done=e.target.checked;render()}
+});
+$("out").onclick=()=>{S.me=null;proj="All";render()};
+$("new").onclick=()=>edit(0);
+$("bell").onclick=reminders;
+$("vl").onclick=()=>{view="list";render()};
+$("vc").onclick=()=>{view="cal";render()};
+["q","fs","fp"].forEach(i=>$(i).addEventListener("input",render));
+$("npb").onclick=()=>{const v=$("np").value.trim();if(v&&!S.projects.includes(v)){S.projects.push(v);$("np").value="";render()}};
+$("np").onkeydown=e=>{if(e.key==="Enter")$("npb").click()};
+$("theme").onclick=()=>{const d=document.documentElement,dark=getComputedStyle(d).getPropertyValue("--bg").trim()==="#0e1024";d.dataset.theme=dark?"light":"dark"};
+init();
+</script>
+</body>
+</html>

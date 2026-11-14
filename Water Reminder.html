@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Water Reminder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#EEF5F6;--surface:#FFFFFF;--ink:#0F2B3A;--muted:#5B7482;--line:#D3E2E6;--water:#1E9FB0;--water-deep:#0F6E80;--on-water:#FFFFFF;--ok:#2E8B57;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0B1B24;--surface:#12293591;--ink:#E6F2F5;--muted:#8CA8B5;--line:#21404E;--water:#35B8C9;--water-deep:#1E8FA0;--on-water:#04202A;--ok:#5CC98B}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0B1B24;--surface:#122935;--ink:#E6F2F5;--muted:#8CA8B5;--line:#21404E;--water:#35B8C9;--water-deep:#1E8FA0;--on-water:#04202A;--ok:#5CC98B}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+header{padding:20px 20px 4px}
+header h1{margin:0;font-size:1.5rem;font-weight:800;letter-spacing:-.01em}
+main{flex:1;padding:8px 20px 96px}
+section[hidden]{display:none}
+h2{font-size:1.25rem;margin:12px 0 4px;font-weight:800}
+p.sub{margin:0 0 16px;color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
+.btn{font:inherit;font-weight:600;border:0;border-radius:14px;padding:14px 18px;background:var(--water);color:var(--on-water);cursor:pointer;width:100%;font-size:1.05rem}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.danger{background:transparent;color:#C0392B;border:1px solid var(--line)}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--water-deep);outline-offset:2px}
+.glass-wrap{display:flex;flex-direction:column;align-items:center;padding:8px 0 16px}
+.glass{width:190px;height:auto}
+.glass .fill{transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+@media (prefers-reduced-motion:reduce){.glass .fill{transition:none}}
+.count{font-size:3rem;font-weight:800;line-height:1;margin-top:6px}
+.count small{font-size:1.1rem;font-weight:400;color:var(--muted)}
+.status{color:var(--muted);margin:6px 0 0;text-align:center}
+.row{display:flex;gap:10px}
+.row .btn{flex:1}
+.bars{display:flex;align-items:flex-end;gap:8px;height:140px;padding-top:8px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:.8rem;color:var(--muted)}
+.bar i{display:block;width:100%;border-radius:8px 8px 3px 3px;background:var(--line);min-height:4px}
+.bar.met i{background:var(--water)}
+.bar b{font-weight:600;color:var(--ink);margin-bottom:3px}
+ul.days{list-style:none;margin:0;padding:0}
+ul.days li{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
+ul.days li:last-child{border:0}
+.met-t{color:var(--ok);font-weight:600}
+.stats{display:flex;gap:10px;margin-bottom:14px}
+.stats div{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+.stats strong{display:block;font-size:1.5rem;font-weight:800}
+.stats span{color:var(--muted);font-size:.85rem}
+label.field{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 0;font-weight:600}
+select,.stepper button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.stepper{display:flex;align-items:center;gap:10px}
+.stepper button{width:40px;height:40px;font-size:1.2rem;cursor:pointer}
+.stepper output{min-width:2ch;text-align:center;font-weight:800;font-size:1.2rem}
+.switch{width:52px;height:30px;border-radius:30px;border:0;background:var(--line);position:relative;cursor:pointer;flex:none}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .2s}
+.switch[aria-checked="true"]{background:var(--water-deep)}
+.switch[aria-checked="true"]::after{left:25px}
+.note{color:var(--muted);font-size:.9rem;margin:6px 0 0}
+.steps{margin:0;padding-left:20px}.steps li{margin:6px 0}
+.cases{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0;padding:0;list-style:none}
+.cases li{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:.95rem}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));z-index:5}
+nav .in{max-width:480px;margin:0 auto;display:flex}
+nav a{flex:1;text-align:center;text-decoration:none;color:var(--muted);padding:8px 4px;border-radius:12px;font-size:.85rem;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav a[aria-current="page"]{color:var(--water-deep);background:var(--surface)}
+@media (prefers-color-scheme:dark){nav a[aria-current="page"]{color:var(--water)}}
+#toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:600;max-width:90%;z-index:20;opacity:0;pointer-events:none;transition:opacity .25s}
+#toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="app">
+<header><h1>💧 Water Reminder</h1></header>
+<main>
+
+<section id="v-today" data-view="today">
+  <div class="panel glass-wrap">
+    <svg class="glass" viewBox="0 0 120 160" role="img" aria-label="Glass showing today’s progress">
+      <defs><clipPath id="gc"><path d="M20 10h80l-9 138q-1 8-9 8H38q-8 0-9-8z"/></clipPath></defs>
+      <g clip-path="url(#gc)">
+        <rect x="0" y="0" width="120" height="160" fill="var(--bg)"/>
+        <rect id="fill" class="fill" x="0" y="10" width="120" height="150" fill="var(--water)" style="transform:translateY(150px)"/>
+      </g>
+      <path d="M20 10h80l-9 138q-1 8-9 8H38q-8 0-9-8z" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+    </svg>
+    <div class="count"><span id="n">0</span> <small>of <span id="g">8</span> glasses</small></div>
+    <p class="status" id="status"></p>
+  </div>
+  <button class="btn" id="add">Add water glass</button>
+  <div class="row" style="margin-top:10px"><button class="btn ghost" id="undo">Undo last glass</button></div>
+</section>
+
+<section id="v-history" data-view="history" hidden>
+  <h2>History</h2>
+  <p class="sub">Your last 7 days.</p>
+  <div class="stats">
+    <div><strong id="streak">0</strong><span>day streak</span></div>
+    <div><strong id="avg">0</strong><span>avg glasses</span></div>
+    <div><strong id="hit">0</strong><span>goals met</span></div>
+  </div>
+  <div class="panel"><div class="bars" id="bars"></div></div>
+  <div class="panel"><ul class="days" id="days"></ul></div>
+</section>
+
+<section id="v-setup" data-view="setup" hidden>
+  <h2>Settings</h2>
+  <p class="sub">Set your goal and how often you want a nudge.</p>
+  <div class="panel">
+    <div class="field" style="display:flex;justify-content:space-between;align-items:center;font-weight:600">
+      Daily goal (glasses)
+      <div class="stepper"><button id="gm" aria-label="Fewer glasses">−</button><output id="gv">8</output><button id="gp" aria-label="More glasses">+</button></div>
+    </div>
+  </div>
+  <div class="panel">
+    <label class="field">Reminders <button class="switch" id="rem" role="switch" aria-checked="false" aria-label="Reminders"></button></label>
+    <label class="field">Remind me every
+      <select id="int"><option value="1">1 hour</option><option value="2">2 hours</option><option value="3">3 hours</option><option value="4">4 hours</option></select>
+    </label>
+    <p class="note" id="remnote">Reminders are off.</p>
+  </div>
+  <button class="btn danger" id="reset">Clear all history</button>
+</section>
+
+<section id="v-about" data-view="about" hidden>
+  <h2>About</h2>
+  <p class="sub">A small app that helps you drink enough water.</p>
+  <div class="panel"><strong>How it works</strong>
+    <ol class="steps"><li>Open Today to see your progress.</li><li>Tap Add water glass each time you drink.</li><li>Turn on reminders in Settings.</li><li>Aim for at least 8 glasses a day.</li></ol>
+  </div>
+  <div class="panel"><strong>Made for</strong>
+    <ul class="cases" style="margin-top:10px"><li>💼 Office workers</li><li>🎓 Students</li><li>🏋️ Fitness fans</li><li>👵 Anyone who forgets to drink</li></ul>
+  </div>
+</section>
+
+</main>
+<nav aria-label="Main"><div class="in">
+  <a href="#today" data-tab="today"><svg viewBox="0 0 24 24"><path d="M6 3h12l-1.5 16a2 2 0 0 1-2 2h-5a2 2 0 0 1-2-2z"/><path d="M7 10h10"/></svg>Today</a>
+  <a href="#history" data-tab="history"><svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>History</a>
+  <a href="#setup" data-tab="setup"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>Settings</a>
+  <a href="#about" data-tab="about"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg>About</a>
+</div></nav>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+var KEY="waterreminder_v1";
+var S={goal:8,interval:2,remind:false,log:{}};
+try{var raw=localStorage.getItem(KEY);if(raw){var p=JSON.parse(raw);if(p&&typeof p==="object"){S.goal=+p.goal||8;S.interval=+p.interval||2;S.remind=!!p.remind;S.log=p.log||{};}}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function key(d){var m=d.getMonth()+1,x=d.getDate();return d.getFullYear()+"-"+(m<10?"0":"")+m+"-"+(x<10?"0":"")+x;}
+function back(n){var d=new Date();d.setDate(d.getDate()-n);return d;}
+function count(d){return S.log[key(d)]||0;}
+var $=function(i){return document.getElementById(i)};
+var toastT;
+function toast(t){var e=$("toast");e.textContent=t;e.classList.add("on");clearTimeout(toastT);toastT=setTimeout(function(){e.classList.remove("on")},2600);}
+
+function renderToday(){
+  var n=count(new Date()),g=S.goal,pct=Math.min(n/g,1);
+  $("n").textContent=n;$("g").textContent=g;
+  $("fill").style.transform="translateY("+(150*(1-pct))+"px)";
+  var left=g-n;
+  $("status").textContent=n===0?"No water yet today. Start with one glass.":left>0?left+(left===1?" glass":" glasses")+" to go.":"Goal reached. Nice work!";
+}
+function renderHistory(){
+  var bars="",days="",tot=0,hit=0,i;
+  for(i=6;i>=0;i--){var d=back(i),c=count(d),h=Math.min(c/S.goal,1)*100;
+    tot+=c;if(c>=S.goal)hit++;
+    bars+='<div class="bar'+(c>=S.goal?" met":"")+'"><b>'+c+'</b><i style="height:'+Math.max(h,3)+'%"></i><span>'+d.toLocaleDateString(undefined,{weekday:"short"})+'</span></div>';}
+  $("bars").innerHTML=bars;
+  for(i=0;i<14;i++){var dd=back(i),cc=count(dd),ok=cc>=S.goal;
+    days+='<li><span>'+(i===0?"Today":i===1?"Yesterday":dd.toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"}))+'</span><span class="'+(ok?"met-t":"")+'">'+cc+" / "+S.goal+(ok?" ✓":"")+'</span></li>';}
+  $("days").innerHTML=days;
+  var s=0;i=count(new Date())>=S.goal?0:1;
+  while(i<400&&count(back(i))>=S.goal){s++;i++;}
+  $("streak").textContent=s;$("avg").textContent=(tot/7).toFixed(1);$("hit").textContent=hit;
+}
+function renderSetup(){
+  $("gv").textContent=S.goal;$("int").value=String(S.interval);
+  $("rem").setAttribute("aria-checked",S.remind?"true":"false");
+  $("remnote").textContent=S.remind?"You’ll get a reminder every "+S.interval+(S.interval===1?" hour":" hours")+" while this page is open.":"Reminders are off.";
+}
+function renderAll(){renderToday();renderHistory();renderSetup();}
+
+$("add").onclick=function(){var k=key(new Date());S.log[k]=(S.log[k]||0)+1;save();renderAll();
+  toast(S.log[k]===S.goal?"Goal reached! 🎉":"Glass added");};
+$("undo").onclick=function(){var k=key(new Date());if(!S.log[k]){toast("Nothing to undo");return;}S.log[k]--;save();renderAll();toast("Last glass removed");};
+$("gm").onclick=function(){if(S.goal>1){S.goal--;save();renderAll();}};
+$("gp").onclick=function(){if(S.goal<30){S.goal++;save();renderAll();}};
+$("int").onchange=function(){S.interval=+this.value;save();schedule();renderSetup();};
+$("reset").onclick=function(){if(confirm("Clear all water history? This can’t be undone.")){S.log={};save();renderAll();toast("History cleared");}};
+$("rem").onclick=function(){
+  S.remind=!S.remind;save();renderSetup();schedule();
+  if(S.remind&&"Notification" in window&&Notification.permission==="default"){try{Notification.requestPermission();}catch(e){}}
+};
+
+var next=0,timer;
+function schedule(){clearInterval(timer);if(!S.remind)return;next=Date.now()+S.interval*3600000;
+  timer=setInterval(function(){if(Date.now()>=next){next=Date.now()+S.interval*3600000;
+    var msg="Time to drink a glass of water 💧";
+    try{if("Notification" in window&&Notification.permission==="granted"){new Notification("Water Reminder",{body:msg});}}catch(e){}
+    toast(msg);}},15000);}
+schedule();
+
+var views=["today","history","setup","about"];
+function route(){
+  var h=(location.hash||"#today").slice(1);if(views.indexOf(h)<0)h="today";
+  document.querySelectorAll("[data-view]").forEach(function(s){s.hidden=s.getAttribute("data-view")!==h;});
+  document.querySelectorAll("[data-tab]").forEach(function(a){if(a.getAttribute("data-tab")===h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+  renderAll();window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",route);route();
+})();
+</script>
+</body>
+</html>
