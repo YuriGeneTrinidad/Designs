@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yuri Gene Trinidad – Portfolio</title>
+<meta name="description" content="Portfolio of Yuri Gene Trinidad, front-end developer and UI designer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#fafaf9; --surface:#fff; --text:#1c1c1a; --muted:#6b6b66; --line:#e7e6e2; color-scheme: light; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#141413; --surface:#1c1c1a; --text:#f2f1ed; --muted:#9a9993; --line:#2c2c29; color-scheme: dark; }
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--text); font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+  .wrap { max-width:1080px; margin:0 auto; padding:32px 24px 80px; }
+  section { scroll-margin-top:24px; }
+
+  nav { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px 24px; font-size:.95rem; }
+  nav .brand { font-weight:700; letter-spacing:-0.02em; text-decoration:none; }
+  nav .links { display:flex; flex-wrap:wrap; gap:8px 24px; }
+  nav .links a { color:var(--muted); text-decoration:none; }
+  nav .links a:hover { color:var(--text); }
+
+  .hero { padding:96px 0 88px; max-width:680px; }
+  .hero h1 { font-size:clamp(2.2rem,6vw,3.4rem); font-weight:700; letter-spacing:-0.035em; line-height:1.08; margin-bottom:20px; }
+  .hero p { color:var(--muted); font-size:1.1rem; margin-bottom:32px; }
+  .actions { display:flex; flex-wrap:wrap; gap:12px; }
+  .btn { display:inline-block; padding:11px 20px; border:1px solid var(--text); border-radius:8px; text-decoration:none; font-weight:500; font-size:.95rem; transition:background .2s,color .2s; }
+  .btn.solid { background:var(--text); color:var(--bg); }
+  .btn:hover { background:var(--text); color:var(--bg); }
+  .btn.solid:hover { opacity:.85; }
+
+  h2.title { font-size:1.6rem; letter-spacing:-0.03em; margin-bottom:32px; }
+  .block { margin-top:104px; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr)); gap:40px 28px; list-style:none; }
+  .card { display:block; text-decoration:none; }
+  .preview { position:relative; aspect-ratio:16/10; overflow:hidden; border:1px solid var(--line); border-radius:10px; background:var(--surface); transition:border-color .2s; }
+  .preview iframe { position:absolute; top:0; left:0; width:1280px; height:800px; border:0; transform-origin:top left; pointer-events:none; background:#fff; }
+  .card:hover .preview, .card:focus-visible .preview { border-color:var(--text); }
+  .card:focus-visible { outline:2px solid var(--text); outline-offset:6px; border-radius:10px; }
+  .info { padding-top:14px; }
+  .info h3 { font-size:1.05rem; font-weight:500; letter-spacing:-0.01em; }
+  .info p { color:var(--muted); font-size:.92rem; margin-top:2px; }
+
+  .row { display:grid; grid-template-columns:180px 1fr; gap:8px 32px; padding:26px 0; border-top:1px solid var(--line); }
+  .row > h3 { font-size:.95rem; font-weight:500; color:var(--muted); }
+  .row ul { padding-left:18px; margin-top:6px; }
+  .row li + li { margin-top:4px; }
+  .item + .item { margin-top:24px; }
+  .item h4 { font-size:1rem; font-weight:500; }
+  .when { color:var(--muted); font-size:.9rem; }
+  .tools { display:grid; grid-template-columns:150px 1fr; gap:10px 16px; align-items:start; }
+  .tools dt { color:var(--muted); font-size:.92rem; padding-top:4px; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { border:1px solid var(--line); border-radius:999px; padding:3px 12px; font-size:.9rem; background:var(--surface); }
+  .row a { text-underline-offset:3px; }
+
+  footer { margin-top:96px; padding-top:24px; border-top:1px solid var(--line); color:var(--muted); font-size:.9rem; }
+
+  @media (max-width:640px) {
+    .wrap { padding:24px 18px 56px; }
+    .hero { padding:64px 0 56px; }
+    .block { margin-top:72px; }
+    .grid { gap:32px; }
+    .row { grid-template-columns:1fr; gap:6px; padding:22px 0; }
+    .tools { grid-template-columns:1fr; gap:4px; }
+    .tools dd { margin-bottom:10px; }
+    .tools dt { padding-top:0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="brand" href="#top">Yuri Gene Trinidad</a>
+    <div class="links"><a href="#work">Work</a><a href="#about">About</a><a href="#experience">Experience</a><a href="#contact">Contact</a></div>
+  </nav>
+
+  <header class="hero" id="top">
+    <h1>Front-end developer and UI designer.</h1>
+    <p>I'm Yuri, a BSIT graduate who builds web interfaces, prototypes apps in Figma, and designs posters and videos for live events. I care about clear, usable design.</p>
+    <div class="actions">
+      <a class="btn solid" href="#work">View my work</a>
+      <a class="btn" href="Yuri_Gene_Trinidad_CV.pdf" target="_blank" rel="noopener">Download resume</a>
+    </div>
+  </header>
+
+  <section id="work">
+    <h2 class="title">Selected work</h2>
+    <ul class="grid">
+      <li><a class="card" href="BudgetBee.html" target="_blank" rel="noopener">
+        <div class="preview"><iframe src="BudgetBee.html" title="BudgetBee preview" loading="lazy" tabindex="-1"></iframe></div>
+        <div class="info"><h3>BudgetBee</h3><p>Personal budget tracker</p></div></a></li>
+      <li><a class="card" href="Cafemate.html" target="_blank" rel="noopener">
+        <div class="preview"><iframe src="Cafemate.html" title="Cafemate preview" loading="lazy" tabindex="-1"></iframe></div>
+        <div class="info"><h3>Cafemate</h3><p>Coffee shop website</p></div></a></li>
+      <li><a class="card" href="Fernhill-Plant-Shop.html" target="_blank" rel="noopener">
+        <div class="preview"><iframe src="Fernhill-Plant-Shop.html" title="Fernhill Plant Shop preview" loading="lazy" tabindex="-1"></iframe></div>
+        <div class="info"><h3>Fernhill Plant Shop</h3><p>Online plant store</p></div></a></li>
+      <li><a class="card" href="StudyShare.html" target="_blank" rel="noopener">
+        <div class="preview"><iframe src="StudyShare.html" title="StudyShare preview" loading="lazy" tabindex="-1"></iframe></div>
+        <div class="info"><h3>StudyShare</h3><p>Study resource sharing</p></div></a></li>
+      <li><a class="card" href="StudentLink-Campus-Board.html" target="_blank" rel="noopener">
+        <div class="preview"><iframe src="StudentLink-Campus-Board.html" title="StudentLink preview" loading="lazy" tabindex="-1"></iframe></div>
+        <div class="info"><h3>StudentLink</h3><p>Campus community board</p></div></a></li>
+      <li><a class="card" href="TaskManager.html" target="_blank" rel="noopener">
+        <div class="preview"><iframe src="TaskManager.html" title="Task Manager preview" loading="lazy" tabindex="-1"></iframe></div>
+        <div class="info"><h3>Task Manager</h3><p>Simple to-do app</p></div></a></li>
+      <li><a class="card" href="WaterReminder.html" target="_blank" rel="noopener">
+        <div class="preview"><iframe src="WaterReminder.html" title="Water Reminder preview" loading="lazy" tabindex="-1"></iframe></div>
+        <div class="info"><h3>Water Reminder</h3><p>Daily hydration tracker</p></div></a></li>
+    </ul>
+  </section>
+
+  <section id="about" class="block">
+    <h2 class="title">About</h2>
+    <div class="row">
+      <h3>Tools</h3>
+      <dl class="tools">
+        <dt>Front-end</dt><dd class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span></dd>
+        <dt>Design</dt><dd class="chips"><span class="chip">Figma</span><span class="chip">Canva</span><span class="chip">Photoshop</span></dd>
+        <dt>Video</dt><dd class="chips"><span class="chip">CapCut</span><span class="chip">Premiere Pro</span></dd>
+        <dt>Office</dt><dd class="chips"><span class="chip">Google Workspace</span><span class="chip">MS Office</span></dd>
+        <dt>Languages</dt><dd class="chips"><span class="chip">Filipino (fluent)</span><span class="chip">English (conversational)</span></dd>
+      </dl>
+    </div>
+    <div class="row">
+      <h3>Education</h3>
+      <div>
+        <div class="item"><h4>BS in Information Technology</h4><div class="when">Panpacific University Tayug Campus, 2025</div></div>
+        <div class="item"><h4>Information and Communication Technology</h4><div class="when">Pasay City South High School, 2020</div></div>
+      </div>
+    </div>
+    <div class="row">
+      <h3>Certifications</h3>
+      <ul>
+        <li>Cisco: Networking Basics, Internet Protocol Basics, Network Access Basics, Exploring IoT with Cisco Packet Tracer (2024)</li>
+        <li>Cisco: Introduction to Cybersecurity (2023)</li>
+        <li>Presented "E-Learning: An Interactive Educational Application for Children" at the 8th Pan-Pacific International Research Conference (July 2025)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="experience" class="block">
+    <h2 class="title">Experience</h2>
+    <div class="row">
+      <h3>Aug – Nov 2025</h3>
+      <div class="item"><h4>Online Intern, Folkestone Live CIC (UK)</h4>
+        <ul><li>Designed event posters and promotional materials for live performances</li><li>Edited videos for social media and marketing campaigns</li><li>Built and maintained ticket-sales spreadsheets</li><li>Recorded meeting minutes and managed form submissions</li></ul></div>
+    </div>
+    <div class="row">
+      <h3>Feb – Jun 2024</h3>
+      <div class="item"><h4>Intern, Panpacific University Tayug Campus Clinic</h4>
+        <ul><li>Developed a web application to manage clinic records and inventory, improving access to and efficiency of data management</li><li>Entered and organized student data in spreadsheets, ensuring accuracy and consistent categorization</li><li>Sorted and filed hardcopy student records for faster retrieval</li></ul></div>
+    </div>
+  </section>
+
+  <section id="contact" class="block">
+    <h2 class="title">Contact</h2>
+    <div class="row">
+      <h3>Get in touch</h3>
+      <p>Open to opportunities and collaborations. Email me at <a href="mailto:yurigenetrinidad34pab@gmail.com">yurigenetrinidad34pab@gmail.com</a>, or <a href="Yuri_Gene_Trinidad_CV.pdf" target="_blank" rel="noopener">download my resume</a>.</p>
+    </div>
+  </section>
+
+  <footer>© 2026 Yuri Gene Trinidad · <a href="https://github.com/YuriGeneTrinidad" target="_blank" rel="noopener">GitHub</a></footer>
+</div>
+
+<script>
+  function fitPreviews() {
+    document.querySelectorAll('.preview').forEach(function (box) {
+      box.querySelector('iframe').style.transform = 'scale(' + (box.clientWidth / 1280) + ')';
+    });
+  }
+  window.addEventListener('resize', fitPreviews);
+  window.addEventListener('load', fitPreviews);
+  fitPreviews();
+</script>
+</body>
+</html>
